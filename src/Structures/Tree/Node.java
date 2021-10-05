@@ -134,7 +134,23 @@ public class Node<V> {
             }
         }
         else{
-            return rmChild(code);
+            if(nodev.isRoot()){
+                for(Node<V> n: nodev.getChilds()){
+                    if(rmNode(n, code)!=null){
+                        break;
+                    }
+                }
+            }
+            else {
+                Node<V> node = nodev.getParent().rmChild(code);
+                if (node != null) {
+                    return node;
+                } else {
+                    for (Node<V> n : nodev.getChilds()) {
+                        rmNode(n, code);
+                    }
+                }
+            }
         }
         return null;
     }
@@ -201,29 +217,29 @@ public class Node<V> {
                         List<Node<V>> siblings = new LinkedList();
                         int pos = 0;
                         while(pos<childs.size()){
-                            if(((Node<V>) childs.get(i)).getCode().compareTo(code)!=0){
+                            if(((Node<V>) childs.get(pos)).getCode().compareTo(code)!=0){
                                 siblings.add(childs.get(pos));
                             }
                             pos++;
                         }
                         int parentChilds = this.getChilds().size();
-                        if(parentChilds==1) {
-                                this.setLeaf(true);
-                                this.grades=0;
-                        }
+                        List<Node<V>> newChilds = childs.get(i).getChilds();
                         if(parentChilds>1){
-                            if(parentChilds + ((Node<V>)childs.get(i)).getChilds().size() <= order) {
-                                this.setChilds(((Node<V>) childs.get(i)).getChilds());
-                                for(Node<V> node : siblings){
+                            if(siblings.size() + ((Node<V>)childs.get(i)).getChilds().size() <= order) {
+                                Node<V> delNode = (Node<V>) childs.get(i);
+                                this.setChilds(siblings);
+                                for(Node<V> node :delNode.getChilds()){
                                     this.getChilds().add(node);
                                 }
-                                this.grades=parentChilds + ((Node<V>)childs.get(i)).getChilds().size();
+                                this.grades=this.getChilds().size();
                             }
                             else{
                                 reorder(((Node<V>) childs.get(i)).getChilds(), siblings);
                             }
                         }
-                        childs.remove(i);
+                        if(parentChilds == 1){
+                            this.setChilds(newChilds);
+                        }
                         return this;
                     }
                 }

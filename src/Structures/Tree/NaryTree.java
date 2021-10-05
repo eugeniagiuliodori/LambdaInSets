@@ -36,6 +36,10 @@ public class NaryTree<V> {
         root.removeNode(root,code);
     }
 
+    public void rm(Integer code){
+        root.rmNode(root,code);
+    }
+
     public void update(Integer code, V value){
         root.updateNode(root,value,code);
     }

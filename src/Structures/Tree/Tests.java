@@ -12,7 +12,7 @@ public class Tests {
         }
         System.out.println("NUMBERS IN TREE");
         System.out.println(tree.toString()+"\n");
-        List<Node<Integer>> list = tree.searchs(new Integer(8));
+        List<Node<Integer>> list = tree.searchs(new Integer(6));
         for(Node<Integer> node : list){
             tree.update(node.getCode(), new Integer(5));
         }
@@ -20,7 +20,7 @@ public class Tests {
         System.out.println(tree.toString()+"\n");
         list = tree.searchs(new Integer(5));
         for(Node<Integer> node : list){
-            tree.remove(node.getCode());
+            tree.rm(node.getCode());
         }
         System.out.println("NUMBERS IN THE TREE DELETING THE NUMBER 5");
         System.out.println(tree.toString()+"\n");
