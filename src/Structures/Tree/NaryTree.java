@@ -37,7 +37,7 @@ public class NaryTree<V> {
     }
 
     public void rm(Integer code){
-        root.rmNode(root,code);
+        root = root.rmNode(root,code);//por que no se impactan los cambios en puntero root, si no hago la asignacion?
     }
 
     public void update(Integer code, V value){
