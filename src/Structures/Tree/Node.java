@@ -275,27 +275,22 @@ public class Node<K extends Comparable<K>,V>  implements Comparator<K> {
 
     }
 
-    private boolean reorder(List<Node<K,V>> nodesToAdd, List<Node<K,V>> currentChilds){
-        boolean found = false;
-        for(Node<K,V> node : currentChilds){
-            if(node.getChilds().size() + nodesToAdd.size() <= order){
-                found = true;
-                for(Node<K,V> n : nodesToAdd){
+    private void reorder(List<Node<K,V>> nodesToAdd, List<Node<K,V>> currentChilds){
+        for(Node<K,V> node : currentChilds) {
+            while (!nodesToAdd.isEmpty()) {
+                Node<K, V> n = nodesToAdd.get(0);
+                if (node.getChilds().size() + 1 <= order) {
                     node.getChilds().add(n);
-                    if(node.getChilds().get(0).isLeaf()){
+                    if (node.getChilds().get(0).isLeaf()) {
                         n.setLeaf(true);
                     }
+                    nodesToAdd.remove(0);
+                    node.setGrades(node.getChilds().size());
+                } else {
+                    reorder(nodesToAdd, node.getChilds());
                 }
-                node.setGrades(node.getChilds().size() + nodesToAdd.size());
-                break;
             }
         }
-        int j = 0;
-        while (j < currentChilds.size() && !found) {
-            found = reorder(nodesToAdd, currentChilds.get(j).getChilds());
-        }
-
-        return found;
     }
 
 
