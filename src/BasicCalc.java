@@ -25,8 +25,9 @@ public class BasicCalc {
     private static final Integer codeTreeSet= 8;
     private static final Integer codeConcurrentHashMap= 9;
     private static final Integer codeHashSet= 10;
+    private static final Integer codeNaryTree = 11;
     private static final int minCode = codeArrayListInt;
-    private static final int maxCode = codeHashSet;
+    private static final int maxCode = codeNaryTree;
 
     private static Integer maxElem = 100;
     private static Structure<Integer, Integer> arrayListInt = new Structure<>(codeArrayListInt,Optional.empty());
@@ -39,6 +40,7 @@ public class BasicCalc {
     private static Structure<Integer, Integer> treeset = new Structure<>(codeTreeSet, Optional.empty());
     private static Structure<Integer, Integer> concurrenthashmap = new Structure<>(codeConcurrentHashMap, Optional.empty());
     private static Structure<Integer, Integer> hashset = new Structure<>(codeHashSet, Optional.empty());
+    private static Structure<Integer, Integer> narytree = new Structure(codeNaryTree, Optional.empty());
 
     private static Stream getStream(Structure structure, boolean isPrimitiveArray, String strPrimitiveArray){
         if(!isPrimitiveArray){
@@ -49,7 +51,7 @@ public class BasicCalc {
                 return ((AbstractMap) (structure.internalStruct())).values().stream();
             }
             else {
-                if(structure.internalStruct() instanceof Hashtable){
+                if(structure.internalStruct() instanceof Hashtable || structure.internalStruct() instanceof  NaryTree){
                     return ((Map) (structure.internalStruct())).values().stream();
                 }
                 else {
@@ -125,6 +127,9 @@ public class BasicCalc {
             if(n.compareTo(codeHashSet)==0){
                 return (HashSet<Integer>)hashset.internalStruct();
             }
+            if(n.compareTo(codeNaryTree)==0){
+                return (NaryTree<Integer,Integer>)narytree.internalStruct();
+            }
             return null;
         };
         Function<Integer,Structure<Integer,Integer>> fgetStructure = n -> {
@@ -157,6 +162,9 @@ public class BasicCalc {
             }
             if(n.compareTo(codeHashSet)==0){
                 return hashset;
+            }
+            if(n.compareTo(codeNaryTree)==0){
+                return narytree;
             }
             return null;
         };
@@ -191,6 +199,9 @@ public class BasicCalc {
             if(n.compareTo(codeHashSet)==0){
                 return "HASHSET";
             }
+            if(n.compareTo(codeNaryTree)==0){
+                return "N-ARYTREE";
+            }
             return null;
         };
 
@@ -203,7 +214,7 @@ public class BasicCalc {
                 calculateAndShowInSet(streamSupplier, ((AbstractMap)(fgetStruct.apply(n))).size()-1);
             }
             else {
-                if(n.compareTo(codeHashTable) == 0){
+                if(n.compareTo(codeHashTable) == 0 || n.compareTo(codeNaryTree)==0){
                     calculateAndShowInSet(streamSupplier, ((Map)(fgetStruct.apply(n))).size()-1);
                 }
                 else {
@@ -232,6 +243,7 @@ public class BasicCalc {
             treeset.add(Optional.empty(),i);
             concurrenthashmap.add(Optional.of(i),i);
             hashset.add(Optional.empty(),i);
+            narytree.add(Optional.of(i),i);
         }
     }
 
@@ -245,6 +257,7 @@ public class BasicCalc {
 
 
     public static void main (String[] args) {
+        Order.setOrder(new Integer(2));
         loadStructures();
         List codeStructures = loadCodesStructures();
         calculateAndShowInSets(codeStructures);

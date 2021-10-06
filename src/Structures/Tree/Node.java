@@ -1,10 +1,11 @@
 package Structures.Tree;
 
+import java.util.Comparator;
 import java.util.ConcurrentModificationException;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Node<V> {
+public class Node<K extends Comparable<K>,V>  implements Comparator<K> {
 
     private static final Integer order = Order.getOrder();
 
@@ -14,13 +15,13 @@ public class Node<V> {
     private boolean isLeaf;
     private int countSiblings;
     private int grades;
-    private List<Node<V>> childs;
-    private Node<V> parent;
-    Integer code;
+    private List<Node<K,V>> childs;
+    private Node<K,V> parent;
+    private K code;
 
 
 
-    public Node(V value, Integer code){
+    public Node(K code,V value){
         this.value=value;
         this.code = code;
         this.level = 1;
@@ -32,49 +33,49 @@ public class Node<V> {
         this.childs = new LinkedList();
     }
 
-    public Node<V> searchNode(Node<V> nodev, Integer code){
-        if(this.getCode().compareTo(code)==0) return this;
-        for(Node<V> node : nodev.getChilds()){
-            if(node.getCode().compareTo(code)==0) return node;
+    public Node<K,V> searchNode(Node<K,V> nodev, K code){
+        if(code.compareTo(this.getKey())==0) return this;
+        for(Node<K,V> node : nodev.getChilds()){
+            if(node.getKey().compareTo(code)==0) return node;
         }
-        for(Node<V> node : nodev.getChilds()){
-            for(Node<V> nodeChild : node.getChilds()){
+        for(Node<K,V> node : nodev.getChilds()){
+            for(Node<K,V> nodeChild : node.getChilds()){
                 return searchNode(nodeChild, code);
             }
         }
         return null;
     }
 
-    public List<Node<V>> searchs(Node<V> nodev, List<Node<V>> list, V value){
+    public List<Node<K,V>> searchs(Node<K,V> nodev, List<Node<K,V>> list, V value){
         if(nodev.getValue().equals(value)) {
             list.add(nodev);
         }
-        for(Node<V> node : nodev.getChilds()){
+        for(Node<K,V> node : nodev.getChilds()){
             searchs(node,list,value);
         }
         return list;
     }
 
-    public Node<V> updateNode(Node<V> nodev, V newValue, Integer code){
-        if(nodev.getCode().equals(code)) {
+    public Node<K,V> updateNode(Node<K,V> nodev, K code, V newValue){
+        if(nodev.getKey().equals(code)) {
             nodev.setValue(newValue);
             return nodev;
         }
-        for(Node<V> node : nodev.getChilds()){
-            updateNode(node,newValue,code);
+        for(Node<K,V> node : nodev.getChilds()){
+            updateNode(node,code, newValue);
         }
         return null;
     }
 
-    public Node<V> addNode(Node<V> nodev, V value){
-        Node<V> node = nodev.addChild(value);
+    public Node<K,V> addNode(Node<K,V> nodev, K key, V value){
+        Node<K,V> node = nodev.addChild(key,value);
         if(node != null) {
             return node;
         }
         if(!nodev.isRoot()){
-            Node<V> parent = nodev.getParent();
-            for(Node<V> sibling : parent.getChilds()){
-                node = sibling.addChild(value);
+            Node<K,V> parent = nodev.getParent();
+            for(Node<K,V> sibling : parent.getChilds()){
+                node = sibling.addChild(key,value);
                 if(node != null) {
                     if(node.getChilds().size()==0){
                         node.setLeaf(true);
@@ -84,22 +85,22 @@ public class Node<V> {
                 }
             }
         }
-        return addNode(nodev.getChilds().get(0), value);
+        return addNode(nodev.getChilds().get(0),key, value);
     }
 
 
-    public Node<V> removeNode(Node<V> nodev, Integer code){ //elimina subarbol y retorna subarbol resultante
-        if(nodev.getCode().compareTo(code)==0 && nodev.isRoot()) { //si remove la raiz
+    public Node<K,V> removeNode(Node<K,V> nodev, K code){ //elimina subarbol y retorna subarbol resultante
+        if(nodev.getKey().compareTo(code)==0 && nodev.isRoot()) { //si remove la raiz
             nodev=null;
             return nodev;
         }
         else {
-            if (nodev.getCode().compareTo(code) == 0) {
+            if (nodev.getKey().compareTo(code) == 0) {
                 nodev.getParent().removeChild(code);
             }
             else{
                 try {
-                    for (Node<V> n : nodev.getChilds()) {
+                    for (Node<K,V> n : nodev.getChilds()) {
                         removeNode(n, code);
                     }
                 }
@@ -109,29 +110,29 @@ public class Node<V> {
         return null;
     }
 
-    public Node<V> rmNode(Node<V> nodev, Integer code){ //elimina solo el nodo de codigo 'code'
-        if(nodev.getCode().compareTo(code)==0 && nodev.isRoot()) { //si rm la raiz
+    public Node<K,V> rmNode(Node<K,V> nodev, K code){ //elimina solo el nodo de codigo 'code'
+        if(nodev.getKey().compareTo(code)==0 && nodev.isRoot()) { //si rm la raiz
             if(nodev.getChilds().size()>0){
-                for(Node<V> n : nodev.getChilds()){
+                for(Node<K,V> n : nodev.getChilds()){
                     n.setCountSiblings((n.getCountSiblings()-1));
                 }
-                Node<V> newRoot = nodev.getChilds().get(0);
+                Node<K,V> newRoot = nodev.getChilds().get(0);
                 newRoot.setLevel(1);
                 updateLevel(newRoot,false);
                 if((nodev.getChilds().size()-1) + newRoot.getChilds().size() <= order){
                     newRoot.setChilds(newRoot.getChilds());
-                    for(Node<V> node : nodev.getChilds()){
-                        if(node.getCode().compareTo(newRoot.getCode())!=0){
+                    for(Node<K,V> node : nodev.getChilds()){
+                        if(node.getKey().compareTo(newRoot.getKey())!=0){
                             newRoot.getChilds().add(node);
                         }
                     }
 
                 }
                 else{
-                    List<Node<V>>  listNewRoot = newRoot.getChilds();
-                    List<Node<V>> listNodev = new LinkedList<>();
-                    for(Node<V> node : nodev.getChilds()){
-                        if(node.getCode().compareTo(newRoot.getCode())!=0) {
+                    List<Node<K,V>>  listNewRoot = newRoot.getChilds();
+                    List<Node<K,V>> listNodev = new LinkedList<>();
+                    for(Node<K,V> node : nodev.getChilds()){
+                        if(node.getKey().compareTo(newRoot.getKey())!=0) {
                             node.setParent(newRoot);
                             listNodev.add(node);
                         }
@@ -154,18 +155,18 @@ public class Node<V> {
         }
         else{
             if(nodev.isRoot()){
-                for(Node<V> n: nodev.getChilds()){
+                for(Node<K,V> n: nodev.getChilds()){
                     if(rmNode(n, code)!=null){
                         break;
                     }
                 }
             }
             else {
-                Node<V> node = nodev.getParent().rmChild(code);
+                Node<K,V> node = nodev.getParent().rmChild(code);
                 if (node != null) {
                     return node;
                 } else {
-                    for (Node<V> n : nodev.getChilds()) {
+                    for (Node<K,V> n : nodev.getChilds()) {
                         rmNode(n, code);
                     }
                 }
@@ -174,9 +175,9 @@ public class Node<V> {
         return null;
     }
 
-    private Node<V> addChild(V value){
+    private Node<K,V> addChild(K key, V value){
         if(value != null && grades < order ) {
-            Node<V> child = new Node(value,NaryTree.getCode());
+            Node<K,V> child = new Node(key,value);
             child.setParent(this);
             child.setLevel(this.getLevel() + 1);
             child.setLeaf(true);
@@ -189,16 +190,16 @@ public class Node<V> {
         return null;
     }
 
-    private boolean removeChild(Integer code){ //eliminar subarbol
+    private boolean removeChild(K code){ //eliminar subarbol
         boolean found = false;
         if(childs.size()>0) {
             int i = 0;
             while (!found){
-                if(((Node<V>)childs.get(i)).getCode().compareTo(code)==0){
+                if(((Node<K,V>)childs.get(i)).getKey().compareTo(code)==0){
                     grades--;
                     found = true;
                     if(childs.size()==1){
-                        ((Node<V>) childs.get(i)).getParent().setLeaf(true);
+                        ((Node<K,V>) childs.get(i)).getParent().setLeaf(true);
                     }
                     childs.remove(i);
                     this.setCountSiblings(childs.size());
@@ -209,24 +210,24 @@ public class Node<V> {
         return found;
     }
 
-    private Node<V> rmChild(Integer code){ //eliminar solo el nodo
+    private Node<K,V> rmChild(K code){ //eliminar solo el nodo
         if(childs.size()>0) {
             int i = 0;
             boolean found = false;
             while (!found){
-                if(((Node<V>)childs.get(i)).getCode().compareTo(code)==0){
+                if(((Node<K,V>)childs.get(i)).getKey().compareTo(code)==0){
                     found = true;
-                    if(((Node<V>)childs.get(i)).getChilds().size()>0){
-                        List<Node<V>> siblings = new LinkedList();
+                    if(((Node<K,V>)childs.get(i)).getChilds().size()>0){
+                        List<Node<K,V>> siblings = new LinkedList();
                         int pos = 0;
                         while(pos<childs.size()){
-                            if(((Node<V>) childs.get(pos)).getCode().compareTo(code)!=0){
+                            if(((Node<K,V>) childs.get(pos)).getKey().compareTo(code)!=0){
                                 siblings.add(childs.get(pos));
                             }
                             pos++;
                         }
                         int parentChilds = this.getChilds().size();
-                        List<Node<V>> newChilds = childs.get(i).getChilds();
+                        List<Node<K,V>> newChilds = childs.get(i).getChilds();
                         if(childs.size()==1 && newChilds.size() == 0){
                             this.setLeaf(true);
                         }
@@ -234,16 +235,16 @@ public class Node<V> {
                             this.setLeaf(false);
                         }
                         if(parentChilds>1){
-                            if(siblings.size() + ((Node<V>)childs.get(i)).getChilds().size() <= order) {
-                                Node<V> delNode = (Node<V>) childs.get(i);
+                            if(siblings.size() + ((Node<K,V>)childs.get(i)).getChilds().size() <= order) {
+                                Node<K,V> delNode = (Node<K,V>) childs.get(i);
                                 updateLevel(delNode,false);
                                 this.setChilds(siblings);
-                                for(Node<V> node :delNode.getChilds()){
+                                for(Node<K,V> node :delNode.getChilds()){
                                     this.getChilds().add(node);
                                 }
                             }
                             else{
-                                reorder(((Node<V>) childs.get(i)).getChilds(), siblings);
+                                reorder(((Node<K,V>) childs.get(i)).getChilds(), siblings);
                             }
                         }
                         if(parentChilds == 1){
@@ -260,28 +261,26 @@ public class Node<V> {
         return null;
     }
 
-    private void updateLevel(Node<V> node, boolean increment){
+    private void updateLevel(Node<K,V> node, boolean increment){
         if(increment){
-            for(Node<V> nodev : node.getChilds()){
+            for(Node<K,V> nodev : node.getChilds()){
                 nodev.setLevel(nodev.getLevel() + 1);
             }
         }
         if(!increment){
-            for(Node<V> nodev : node.getChilds()){
+            for(Node<K,V> nodev : node.getChilds()){
                 nodev.setLevel(nodev.getLevel() - 1);
             }
         }
 
     }
 
-    private boolean reorder(List<Node<V>> nodesToAdd, List<Node<V>> currentChilds){
-        int i = 0;
+    private boolean reorder(List<Node<K,V>> nodesToAdd, List<Node<K,V>> currentChilds){
         boolean found = false;
-        for(Node<V> node : currentChilds){
+        for(Node<K,V> node : currentChilds){
             if(node.getChilds().size() + nodesToAdd.size() <= order){
                 found = true;
-                for(Node<V> n : nodesToAdd){
-                    //n.setLevel(node.getChilds().get(0).getLevel());
+                for(Node<K,V> n : nodesToAdd){
                     node.getChilds().add(n);
                     if(node.getChilds().get(0).isLeaf()){
                         n.setLeaf(true);
@@ -290,7 +289,6 @@ public class Node<V> {
                 node.setGrades(node.getChilds().size() + nodesToAdd.size());
                 break;
             }
-            i++;
         }
         int j = 0;
         while (j < currentChilds.size() && !found) {
@@ -349,27 +347,32 @@ public class Node<V> {
         this.grades = grades;
     }
 
-    public List<Node<V>> getChilds() {
+    public List<Node<K,V>> getChilds() {
         return childs;
     }
 
-    public void setChilds(List<Node<V>> childs) {
+    public void setChilds(List<Node<K,V>> childs) {
         this.childs = childs;
     }
 
-    public Node<V> getParent() {
+    public Node<K,V> getParent() {
         return parent;
     }
 
-    public void setParent(Node<V> parent) {
+    public void setParent(Node<K,V> parent) {
         this.parent = parent;
     }
 
-    public Integer getCode() {
+    public K getKey() {
         return code;
     }
 
-    public void setCode(Integer code) {
+    public void setKey(K code) {
         this.code = code;
+    }
+
+    @Override
+    public int compare(K o1, K o2) {
+        return o1.compareTo(o2);
     }
 }

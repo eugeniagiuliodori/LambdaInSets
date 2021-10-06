@@ -1,5 +1,6 @@
 package Structures;
 
+import Structures.Tree.NaryTree;
 import com.sun.beans.TypeResolver;
 
 import javax.print.attribute.*;
@@ -7,7 +8,7 @@ import java.lang.reflect.Array;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class Structure<K, V> {
+public class Structure<K extends Comparable<K>, V> {
 
     Object structure;
     int structureType;
@@ -104,16 +105,20 @@ public class Structure<K, V> {
                 structure = new LinkedHashSet<V>();
                 break;
             }
-            case 8: {  //13 = TreeSet
+            case 8: {  //8 = TreeSet
                 structure = new TreeSet<V>();
                 break;
             }
-            case 9: {  //14 = concurrentHashMap
+            case 9: {  //9 = concurrentHashMap
                 structure = new ConcurrentHashMap<K, V>();
                 break;
             }
-            case 10: {  //15 = HashSet
+            case 10: {  //10 = HashSet
                 structure = new HashSet<V>();
+                break;
+            }
+            case 11: {  //11 = HashSet
+                structure = new NaryTree<>();
                 break;
             }
 
@@ -175,13 +180,16 @@ public class Structure<K, V> {
                 ((HashSet<V>) structure).add(value);
                 break;
             }
+            case 11: {  //11 = NaryTree
+                ((NaryTree<K,V>) structure).put(key.get(),value);
+                break;
+            }
 
         }
     }
 
     public void setTypeArray(String typeArray, int size){
         this.typeArray = typeArray;
-
             if(typeArray.equals("Integer")) {
                 structure = new Integer[size];
             }
