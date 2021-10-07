@@ -2,6 +2,8 @@ package Structures.Tree;
 
 import java.util.List;
 
+//para que funcione la generacion del grafico del arbol se debe instalar sudo apt install graphviz
+
 public class Tests {
 
     public static void main(String[] args){
@@ -26,5 +28,8 @@ public class Tests {
         }
         System.out.println("NUMBERS IN THE TREE DELETING THE NUMBER 3");
         System.out.println(tree.toString()+"\n");
+
+        tree.graphic("Tree.jpg");
+
     }
 }

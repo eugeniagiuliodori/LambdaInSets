@@ -1,0 +1,14 @@
+digraph grafica{
+labelloc="t";label ="RESULTANT TREE
+"rankdir=TB;
+node [shape = record, style=filled, fillcolor=seashell2];
+nodo2 [ label ="<C0>|4|<C1>"];
+nodo3 [ label ="<C0>|6|<C1>"];
+nodo6 [ label ="<C0>|12|<C1>"];
+nodo5 [ label ="10"];
+nodo6:C0->nodo5
+nodo3:C0->nodo6
+nodo4 [ label ="8"];
+nodo3:C0->nodo4
+nodo2:C0->nodo3
+}

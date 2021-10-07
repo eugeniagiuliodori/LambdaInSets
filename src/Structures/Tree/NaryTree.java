@@ -58,6 +58,10 @@ public class NaryTree<K extends Comparable<K>,V> implements Map<K,V> {
         return root.searchs(root,new LinkedList<>(),value);
     }
 
+    public void graphic(String path){
+        root.graphic(path);
+    }
+
     private String toStringRec(Node<K,V> nodeparent, String s){
         for(Node<K,V> node : nodeparent.getChilds()){
             s = s + ","+node.getValue().toString();

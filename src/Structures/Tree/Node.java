@@ -1,5 +1,9 @@
 package Structures.Tree;
 
+import java.awt.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 import java.util.Comparator;
 import java.util.ConcurrentModificationException;
 import java.util.LinkedList;
@@ -370,4 +374,63 @@ public class Node<K extends Comparable<K>,V>  implements Comparator<K> {
     public int compare(K o1, K o2) {
         return o1.compareTo(o2);
     }
+
+    private String getCodigoGraphviz() {
+        return "digraph grafica{\n" +
+                "labelloc=\"t\";"+
+                "label =\"RESULTANT TREE\n\""+
+                "rankdir=TB;\n" +
+                "node [shape = record, style=filled, fillcolor=seashell2];\n"+
+                getCodigoInterno()+
+                "}\n";
+    }
+    private String getCodigoInterno() {
+        String etiqueta;
+        if(childs.size()==0){
+            etiqueta="nodo"+this.getKey()+" [ label =\""+this.getValue().toString()+"\"];\n";
+        }else{
+            etiqueta="nodo"+this.getKey()+" [ label =\"<C0>|"+this.getValue().toString()+"|<C1>\"];\n";
+        }
+        int i = 0;
+        for(Node<K,V> node : this.getChilds()){
+                etiqueta=etiqueta + node.getCodigoInterno() +
+                        "nodo"+this.getKey()+":C"+i+"->nodo"+node.getKey()+"\n";
+        }
+        return etiqueta;
+    }
+    public void graphic(String path) {
+        FileWriter fichero = null;
+        PrintWriter escritor;
+        try
+        {
+            fichero = new FileWriter("GTree.dot");
+            escritor = new PrintWriter(fichero);
+            escritor.print(getCodigoGraphviz());
+        }
+        catch (Exception e){
+            System.err.println("Error at graphics GTree.dot");
+        }finally{
+            try {
+                if (null != fichero)
+                    fichero.close();
+            }catch (Exception e2){
+                System.err.println("Error at close GTree.dot");
+            }
+        }
+        try{
+            Runtime rt = Runtime.getRuntime();
+            rt.exec( "dot -Tjpg -o "+path+" GTree.dot");
+            File f = new File(path);
+            Desktop.getDesktop().open(f);
+            //Esperamos medio segundo para dar tiempo a que la imagen se genere.
+            //Para que no sucedan errores en caso de que se decidan graficar varios
+            //árboles sucesivamente.
+            Thread.sleep(500);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            System.err.println("Error at graphics GTree.dot");
+        }
+    }
+
+
 }
