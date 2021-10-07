@@ -1,4 +1,5 @@
 import Structures.Structure;
+import Structures.Tree.BST;
 import Structures.Tree.NaryTree;
 import Structures.Tree.Order;
 
@@ -26,8 +27,9 @@ public class BasicCalc {
     private static final Integer codeConcurrentHashMap= 9;
     private static final Integer codeHashSet= 10;
     private static final Integer codeNaryTree = 11;
+    private static final Integer codeBST = 12;
     private static final int minCode = codeArrayListInt;
-    private static final int maxCode = codeNaryTree;
+    private static final int maxCode = codeBST;
 
     private static Integer maxElem = 100;
     private static Structure<Integer, Integer> arrayListInt = new Structure<>(codeArrayListInt,Optional.empty());
@@ -41,6 +43,7 @@ public class BasicCalc {
     private static Structure<Integer, Integer> concurrenthashmap = new Structure<>(codeConcurrentHashMap, Optional.empty());
     private static Structure<Integer, Integer> hashset = new Structure<>(codeHashSet, Optional.empty());
     private static Structure<Integer, Integer> narytree = new Structure(codeNaryTree, Optional.empty());
+    private static Structure<Integer, Integer> bst = new Structure(codeBST, Optional.empty());
 
     private static Stream getStream(Structure structure, boolean isPrimitiveArray, String strPrimitiveArray){
         if(!isPrimitiveArray){
@@ -51,7 +54,9 @@ public class BasicCalc {
                 return ((AbstractMap) (structure.internalStruct())).values().stream();
             }
             else {
-                if(structure.internalStruct() instanceof Hashtable || structure.internalStruct() instanceof  NaryTree){
+                if(structure.internalStruct() instanceof Hashtable ||
+                        structure.internalStruct() instanceof  NaryTree ||
+                        structure.internalStruct() instanceof BST){
                     return ((Map) (structure.internalStruct())).values().stream();
                 }
                 else {
@@ -130,6 +135,9 @@ public class BasicCalc {
             if(n.compareTo(codeNaryTree)==0){
                 return (NaryTree<Integer,Integer>)narytree.internalStruct();
             }
+            if(n.compareTo(codeBST)==0){
+                return (BST<Integer,Integer>)bst.internalStruct();
+            }
             return null;
         };
         Function<Integer,Structure<Integer,Integer>> fgetStructure = n -> {
@@ -165,6 +173,9 @@ public class BasicCalc {
             }
             if(n.compareTo(codeNaryTree)==0){
                 return narytree;
+            }
+            if(n.compareTo(codeBST)==0){
+                return bst;
             }
             return null;
         };
@@ -202,6 +213,9 @@ public class BasicCalc {
             if(n.compareTo(codeNaryTree)==0){
                 return "N-ARYTREE";
             }
+            if(n.compareTo(codeBST)==0){
+                return "BINARY-SEARCH-TREE";
+            }
             return null;
         };
 
@@ -214,7 +228,7 @@ public class BasicCalc {
                 calculateAndShowInSet(streamSupplier, ((AbstractMap)(fgetStruct.apply(n))).size()-1);
             }
             else {
-                if(n.compareTo(codeHashTable) == 0 || n.compareTo(codeNaryTree)==0){
+                if(n.compareTo(codeHashTable) == 0 || n.compareTo(codeNaryTree)==0 || n.compareTo(codeBST)==0){
                     calculateAndShowInSet(streamSupplier, ((Map)(fgetStruct.apply(n))).size()-1);
                 }
                 else {
@@ -244,6 +258,7 @@ public class BasicCalc {
             concurrenthashmap.add(Optional.of(i),i);
             hashset.add(Optional.empty(),i);
             narytree.add(Optional.of(i),i);
+            bst.add(Optional.of(i),i);
         }
     }
 

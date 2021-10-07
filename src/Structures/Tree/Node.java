@@ -9,7 +9,7 @@ import java.util.ConcurrentModificationException;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Node<K extends Comparable<K>,V>  implements Comparator<K> {
+public class Node<K extends Comparable<K>,V>  implements Comparator<K>{
 
     private static final Integer order = Order.getOrder();
 
@@ -20,6 +20,8 @@ public class Node<K extends Comparable<K>,V>  implements Comparator<K> {
     private int countSiblings;
     private int grades;
     private List<Node<K,V>> childs;
+    private Node<K,V> leftChild;
+    private Node<K,V> rigthChild;
     private Node<K,V> parent;
     private K code;
 
@@ -83,13 +85,38 @@ public class Node<K extends Comparable<K>,V>  implements Comparator<K> {
                 if(node != null) {
                     if(node.getChilds().size()==0){
                         node.setLeaf(true);
-                        node.setRoot(false);
+                        node.setIsRoot(false);
                     }
                     return node;
                 }
             }
         }
         return addNode(nodev.getChilds().get(0),key, value);
+    }
+
+    public Node<K,V> addNodeInBST(Node<K,V> nodev, K key, V value){
+        Node<K,V> node = nodev.addChildInBST(key,value);
+        if(node != null) {
+            return node;
+        }
+        try {
+            Node<K,V> subtree = null;
+            Comparable vnodev = (Comparable)nodev.getValue();
+            if(nodev.getLeftChild()!=null && (((Comparable)value).compareTo(vnodev)<=0)) {
+                subtree = nodev.getLeftChild();
+            }
+            else {
+                if (nodev.getRigthChild() != null && (((Comparable)value).compareTo(vnodev)>0)) {
+                    subtree = nodev.getRigthChild();
+                }
+            }
+            return addNodeInBST(subtree,key, value);
+
+        }
+        catch(Exception e){
+            return null;
+        }
+
     }
 
 
@@ -146,9 +173,9 @@ public class Node<K extends Comparable<K>,V>  implements Comparator<K> {
                 }
                 newRoot.setGrades(newRoot.getChilds().size());
                 newRoot.setLeaf(newRoot.getChilds().size()==0);
-                newRoot.setRoot(true);
+                newRoot.setIsRoot(true);
                 newRoot.setParent(null);
-                newRoot.setRoot(true);
+                newRoot.setIsRoot(true);
                 nodev = newRoot;
                 return nodev;
             }
@@ -179,13 +206,47 @@ public class Node<K extends Comparable<K>,V>  implements Comparator<K> {
         return null;
     }
 
+
+    private Node<K,V> addChildInBST(K key, V value){
+
+            Node<K,V> child = new Node(key,value);
+            child.setParent(this);
+            child.setLevel(this.getLevel() + 1);
+            child.setLeaf(true);
+            child.setIsRoot(false);
+            try{
+                Comparable cv = (Comparable) this.getValue();
+                Comparable cchild = (Comparable) child.getValue();
+                if(cchild != null && cchild.compareTo(cv)<=0 && this.getLeftChild()!= null) return null;
+                if(cchild != null && cchild.compareTo(cv)>0 && this.getRigthChild()!= null) return null;
+                if(cchild != null && cchild.compareTo(cv)<=0){
+                    leftChild = child;
+                    rigthChild = null;
+                }
+                else{
+                    leftChild = null;
+                    rigthChild = child;
+                }
+
+                childs.add(child);
+            }
+            catch(Exception e){
+                return null;
+            }
+            //childs.add(child);
+            countSiblings = childs.size();
+            grades++;
+            return child;
+    }
+
+
     private Node<K,V> addChild(K key, V value){
         if(value != null && grades < order ) {
             Node<K,V> child = new Node(key,value);
             child.setParent(this);
             child.setLevel(this.getLevel() + 1);
             child.setLeaf(true);
-            child.setRoot(false);
+            child.setIsRoot(false);
             childs.add(child);
             countSiblings = childs.size();
             grades++;
@@ -218,7 +279,7 @@ public class Node<K extends Comparable<K>,V>  implements Comparator<K> {
         if(childs.size()>0) {
             int i = 0;
             boolean found = false;
-            while (!found){
+            while (i<childs.size() && !found){
                 if(((Node<K,V>)childs.get(i)).getKey().compareTo(code)==0){
                     found = true;
                     if(((Node<K,V>)childs.get(i)).getChilds().size()>0){
@@ -298,6 +359,22 @@ public class Node<K extends Comparable<K>,V>  implements Comparator<K> {
     }
 
 
+    public Node<K, V> getLeftChild() {
+        return leftChild;
+    }
+
+    public void setLeftChild(Node<K, V> leftChild) {
+        this.leftChild = leftChild;
+    }
+
+    public Node<K, V> getRigthChild() {
+        return rigthChild;
+    }
+
+    public void setRigthChild(Node<K, V> rigthChild) {
+        this.rigthChild = rigthChild;
+    }
+
     public V getValue() {
         return value;
     }
@@ -318,7 +395,7 @@ public class Node<K extends Comparable<K>,V>  implements Comparator<K> {
         return isRoot;
     }
 
-    public void setRoot(boolean root) {
+    public void setIsRoot(boolean root) {
         isRoot = root;
     }
 
@@ -392,6 +469,7 @@ public class Node<K extends Comparable<K>,V>  implements Comparator<K> {
             etiqueta="nodo"+this.getKey()+" [ label =\"<C0>|"+this.getValue().toString()+"|<C1>\"];\n";
         }
         int i = 0;
+        int size = this.getChilds().size();
         for(Node<K,V> node : this.getChilds()){
                 etiqueta=etiqueta + node.getCodigoInterno() +
                         "nodo"+this.getKey()+":C"+i+"->nodo"+node.getKey()+"\n";

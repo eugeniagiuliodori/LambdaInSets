@@ -19,7 +19,7 @@ public class NaryTree<K extends Comparable<K>,V> implements Map<K,V> {
         if(root == null){
             root = new Node(code, value);
             root.setLeaf(true);
-            root.setRoot(true);
+            root.setIsRoot(true);
             size=1;
         }
         else{
@@ -76,6 +76,14 @@ public class NaryTree<K extends Comparable<K>,V> implements Map<K,V> {
         return root.getValue() + toStringRec(root,new String(""));
     }
 
+
+    public Node<K,V> getRoot(){
+        return root;
+    }
+
+    public void setRoot(Node<K,V> root){
+        this.root=root;
+    }
 
     @Override
     public int size() {

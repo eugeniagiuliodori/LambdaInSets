@@ -1,5 +1,6 @@
 package Structures;
 
+import Structures.Tree.BST;
 import Structures.Tree.NaryTree;
 import com.sun.beans.TypeResolver;
 
@@ -117,8 +118,12 @@ public class Structure<K extends Comparable<K>, V> {
                 structure = new HashSet<V>();
                 break;
             }
-            case 11: {  //11 = HashSet
+            case 11: {  //11 = NaryTree
                 structure = new NaryTree<>();
+                break;
+            }
+            case 12: {  //12 = BST (extends of NaryTree)
+                structure = new BST<>();
                 break;
             }
 
@@ -182,6 +187,10 @@ public class Structure<K extends Comparable<K>, V> {
             }
             case 11: {  //11 = NaryTree
                 ((NaryTree<K,V>) structure).put(key.get(),value);
+                break;
+            }
+            case 12: {  //12 = BST
+                ((BST<K,V>) structure).put(key.get(),value);
                 break;
             }
 
