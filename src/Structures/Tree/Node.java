@@ -214,35 +214,113 @@ public class Node<K extends Comparable<K>,V>  implements Comparator<K>{
                 for(Node<K,V> n : nodev.getChilds()){
                     n.setCountSiblings((n.getCountSiblings()-1));
                 }
-                Node<K,V> newRoot = nodev.getChilds().get(0);
+                Node<K,V> a1, a2, b1, newRoot = null;
+                if(nodev.getLeftChild() != null){
+                    newRoot = nodev.getLeftChild();
+                    a1 = newRoot.getLeftChild();
+                    a2 = newRoot.getRigthChild();
+                    b1 = nodev.getRigthChild();
+                }
+                else{
+                    if(nodev.getRigthChild() != null){
+                        newRoot = nodev.getRigthChild();
+                        newRoot.setIsRoot(true);
+                        updateLevel(newRoot,false);
+                        nodev = newRoot;
+                        return nodev;
+                    }
+                    else{
+                        nodev = null;
+                        return null;
+                    }
+                }
                 newRoot.setLevel(1);
-                updateLevel(newRoot,false);
+               // updateLevel(newRoot,false);
                 if((nodev.getChilds().size()-1) + newRoot.getChilds().size() <= order){
                     newRoot.setChilds(newRoot.getChilds());
                     for(Node<K,V> node : nodev.getChilds()){
-                        if(node.getKey().compareTo(newRoot.getKey())!=0){
+                        if(node.getKey().compareTo(newRoot.getKey())!=0) {
                             newRoot.getChilds().add(node);
                         }
                     }
-
-                }
-                else{
-                    List<Node<K,V>>  listNewRoot = newRoot.getChilds();
-                    List<Node<K,V>> listNodev = new LinkedList<>();
-                    for(Node<K,V> node : nodev.getChilds()){
-                        if(node.getKey().compareTo(newRoot.getKey())!=0) {
-                            node.setParent(newRoot);
-                            listNodev.add(node);
+                    boolean condition1 = a1== null && a2 == null && b1 == null;
+                    boolean condition2 = a1 != null && a2 == null && b1 == null;
+                    boolean condition3 = a1 == null && a2 != null && b1 == null;
+                    boolean condition4 = a1 == null && a2 == null && b1 != null;
+                    boolean condition5 = a1 != null && a2 != null && b1 == null;
+                    boolean condition6 = a1 != null && a2 == null && b1 != null;
+                    boolean condition7 = a1 == null && a2 != null && b1 != null;
+                    int condition = 0;
+                    if(condition1) condition=1;
+                    if(condition2) condition=2;
+                    if(condition3) condition=3;
+                    if(condition4) condition=4;
+                    if(condition5) condition=5;
+                    if(condition6) condition=6;
+                    if(condition7) condition=7;
+                    switch(condition){
+                        case 1:{
+                            newRoot.setLeftChild(null);
+                            newRoot.setRigthChild(null);
+                            newRoot.setLevel(1);
+                            newRoot.setCountSiblings(0);
+                            newRoot.setGrades(0);
+                            newRoot.setLeaf(true);
+                            break;
                         }
+                        case 2:{
+                            updateLevel(newRoot,false);
+                            break;
+                        }
+                        case 3:{
+                            updateLevel(newRoot,false);
+                            break;
+                        }
+                        case 4:{
+                            newRoot.setRigthChild(b1);
+                            updateLevel(newRoot,false);
+                            break;
+                        }
+                        case 5:{
+                            updateLevel(newRoot,false);
+                            break;
+                        }
+                        case 6:{
+                            newRoot.setRigthChild(nodev.getRigthChild());
+                            updateLevel(newRoot,false);
+                            break;
+                        }
+                        case 7:{
+                            if(a2.getRigthChild()==null){
+                                a2.setRigthChild(b1);
+                            }
+                            else{
+                                Node<K,V> currNode = a2;
+                                while(currNode.getRigthChild() != null){
+                                    currNode = currNode.getRigthChild();
+                                }
+                                b1.setLevel(currNode.getLevel()+2);
+                                currNode.setRigthChild(b1);
+                            }
+                            updateLevel(newRoot,false);
+                            break;
+                        }
+                        default:{ break;}
                     }
-                    newRoot.setChilds(listNodev);
-                    reorderInBST(listNewRoot,nodev);
+                }
+                else{// newRoot = nodev.getLeftChild()
+                    Node<K,V> currNode = a2;
+                    while(currNode.getRigthChild() != null){
+                        currNode = currNode.getRigthChild();
+                    }
+                    b1.setLevel(currNode.getLevel()+2);
+                    currNode.setRigthChild(b1);
+                    updateLevel(newRoot,false);
                 }
                 newRoot.setGrades(newRoot.getChilds().size());
                 newRoot.setLeaf(newRoot.getChilds().size()==0);
                 newRoot.setIsRoot(true);
                 newRoot.setParent(null);
-                newRoot.setIsRoot(true);
                 nodev = newRoot;
                 return nodev;
             }
@@ -679,6 +757,75 @@ public class Node<K extends Comparable<K>,V>  implements Comparator<K>{
             System.err.println("Error at graphics GTree.dot");
         }
     }
+
+    private String getCodigoGraphvizBST() {
+        return "digraph grafica{\n" +
+                "labelloc=\"t\";"+
+                "label =\"RESULTANT TREE\n\""+
+                "rankdir=TB;\n" +
+                "node [shape = record, style=filled, fillcolor=seashell2];\n"+
+                getCodigoInternoBST()+
+                "}\n";
+    }
+
+
+    private String getCodigoInternoBST() {
+        String etiqueta;
+        if(childs.size()==0){
+            etiqueta="nodo"+this.getKey()+" [ label =\""+this.getValue().toString()+"\"];\n";
+        }else{
+
+            etiqueta="nodo"+this.getKey()+" [ label =\"<C0>|"+this.getValue().toString()+"|<C1>\"];\n";
+        }
+        int i = 0;
+        int size = this.getChilds().size();
+        for(Node<K,V> node : this.getChilds()){
+            if(((Comparable)node.getValue()).compareTo(this.getValue())<=0){
+                etiqueta=etiqueta + node.getCodigoInternoBST() +
+                        "nodo"+node.getParent().getKey()+":C"+i+"->nodo"+node.getKey()+"\n";
+            }
+            else{
+                etiqueta=etiqueta + node.getCodigoInternoBST() +
+                        "nodo"+this.getKey()+":C"+(i+1)+"->nodo"+node.getKey()+"\n";
+            }
+
+        }
+        return etiqueta;
+    }
+    public void graphicBST(String path) {
+        FileWriter fichero = null;
+        PrintWriter escritor;
+        try
+        {
+            fichero = new FileWriter("GTree.dot");
+            escritor = new PrintWriter(fichero);
+            escritor.print(getCodigoGraphvizBST());
+        }
+        catch (Exception e){
+            System.err.println("Error at graphics GTree.dot");
+        }finally{
+            try {
+                if (null != fichero)
+                    fichero.close();
+            }catch (Exception e2){
+                System.err.println("Error at close GTree.dot");
+            }
+        }
+        try{
+            Runtime rt = Runtime.getRuntime();
+            rt.exec( "dot -Tjpg -o "+path+" GTree.dot");
+            File f = new File(path);
+            Desktop.getDesktop().open(f);
+            //Esperamos medio segundo para dar tiempo a que la imagen se genere.
+            //Para que no sucedan errores en caso de que se decidan graficar varios
+            //árboles sucesivamente.
+            Thread.sleep(500);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            System.err.println("Error at graphics GTree.dot");
+        }
+    }
+
 
 
 }

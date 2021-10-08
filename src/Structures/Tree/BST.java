@@ -30,8 +30,10 @@ public class BST<K extends Comparable<K>,V> extends NaryTree<K,V>{
 
     @Override
     public V remove(Object key){
-        return this.getRoot().rmNodeInBST(this.getRoot(),(K)key).getValue();
+        this.setRoot(this.getRoot().rmNodeInBST(this.getRoot(),(K)key));
+        return this.getRoot().getValue();
     }
+
 
 
 }
