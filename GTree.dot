@@ -2,12 +2,12 @@ digraph grafica{
 labelloc="t";label ="RESULTANT TREE
 "rankdir=TB;
 node [shape = record, style=filled, fillcolor=seashell2];
-nodo1 [ label ="<C0>|12|<C1>"];
-nodo2 [ label ="<C0>|10|<C1>"];
-nodo3 [ label ="<C0>|8|<C1>"];
-nodo4 [ label ="<C0>|6|<C1>"];
-nodo5 [ label ="<C0>|4|<C1>"];
-nodo6 [ label ="3"];
+nodo1 [ label ="<C0>|3|<C1>"];
+nodo2 [ label ="<C0>|4|<C1>"];
+nodo3 [ label ="<C0>|6|<C1>"];
+nodo4 [ label ="<C0>|8|<C1>"];
+nodo5 [ label ="<C0>|10|<C1>"];
+nodo6 [ label ="12"];
 nodo5:C0->nodo6
 nodo4:C0->nodo5
 nodo3:C0->nodo4

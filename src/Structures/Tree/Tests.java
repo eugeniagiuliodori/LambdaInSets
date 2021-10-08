@@ -10,7 +10,7 @@ public class Tests {
         Order.setOrder(new Integer(2));
         BST<Integer,Integer> tree = new BST<>();
         Integer k = new Integer(0);
-        for(int i=12; i>= 2; i=(i-2)) {
+        for(int i=2; i<= 12; i=(i+2)) {
             k++;
             tree.put(Integer.valueOf(k),Integer.valueOf(i));
         }
