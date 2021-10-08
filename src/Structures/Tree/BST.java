@@ -14,12 +14,17 @@ public class BST<K extends Comparable<K>,V> extends NaryTree<K,V>{
             this.setRoot(new Node(code, value));
             this.getRoot().setLeaf(true);
             this.getRoot().setIsRoot(true);
-            this.size=1;
+            size=1;
         }
         else{
-            this.size++;
+            size++;
             this.getRoot().addNodeInBST(this.getRoot(),code,value);
         }
+    }
+
+    @Override
+    public int size(){
+        return size;
     }
 
     @Override
