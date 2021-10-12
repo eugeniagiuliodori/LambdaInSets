@@ -1,3 +1,5 @@
+package Structures.Lambda;
+
 import Structures.Structure;
 import Structures.Tree.BST;
 import Structures.Tree.NaryTree;

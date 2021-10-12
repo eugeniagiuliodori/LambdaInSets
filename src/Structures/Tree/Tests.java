@@ -8,7 +8,7 @@ public class Tests {
 
     public static void main(String[] args){
         Order.setOrder(new Integer(2));
-        BST<Integer,Integer> tree = new BST<>();
+        BST<Integer,Integer> tree = new BST();
         Integer k = new Integer(0);
         for(int i=2; i<= 12; i=(i+2)) {
             k++;
