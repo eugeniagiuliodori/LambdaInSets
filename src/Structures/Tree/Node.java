@@ -1,9 +1,13 @@
 package Structures.Tree;
 
+import com.spire.pdf.PdfDocument;
+import com.spire.pdf.PdfPageBase;
+import com.spire.pdf.graphics.PdfImage;
+
+import javax.imageio.ImageIO;
 import java.awt.*;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.PrintWriter;
+import java.awt.image.BufferedImage;
+import java.io.*;
 import java.util.Comparator;
 import java.util.ConcurrentModificationException;
 import java.util.LinkedList;
@@ -40,13 +44,20 @@ public class Node<K extends Comparable<K>,V>  implements Comparator<K>{
     }
 
     public Node<K,V> searchNode(Node<K,V> nodev, K code){
-        if(code.compareTo(this.getKey())==0) return this;
+        if(code.compareTo(nodev.getKey())==0) return nodev;
         for(Node<K,V> node : nodev.getChilds()){
-            if(node.getKey().compareTo(code)==0) return node;
-        }
-        for(Node<K,V> node : nodev.getChilds()){
-            for(Node<K,V> nodeChild : node.getChilds()){
-                return searchNode(nodeChild, code);
+            if(code.compareTo(node.getKey())==0){
+                return node;
+            }
+            else{
+                Node<K,V> cn = null;
+                for(Node<K,V> n : node.getChilds()){
+                    cn = searchNode(n,code);
+                    if (cn!=null){
+                        break;
+                    }
+                }
+                if(cn != null) return cn;
             }
         }
         return null;
@@ -220,9 +231,6 @@ public class Node<K extends Comparable<K>,V>  implements Comparator<K>{
                     a1 = newRoot.getLeftChild();
                     a2 = newRoot.getRigthChild();
                     b1 = nodev.getRigthChild();
-                    if(((Integer)value).compareTo(new Integer(4))==0 && ((Integer)code).compareTo(new Integer(2))==0){
-                        String s="";
-                    }
                 }
                 else{
                     if(nodev.getRigthChild() != null){
@@ -244,7 +252,6 @@ public class Node<K extends Comparable<K>,V>  implements Comparator<K>{
                         n.setParent(newRoot);
                         n.setCountSiblings((n.getCountSiblings()-1));
                     }
-
                 }
                 newRoot.setLevel(1);
                // updateLevel(newRoot,false);
@@ -342,47 +349,18 @@ public class Node<K extends Comparable<K>,V>  implements Comparator<K>{
             }
         }
         else{
-            if(nodev.isRoot()){
-                Node currN;
-                V delValue = nodev.searchNode(nodev,code).getValue();
-                if(((Comparable)delValue).compareTo(nodev.getValue())<=0){
-                    currN = rmNodeInBST(nodev.getLeftChild(), code);
-                }
-                else{
-                    currN = rmNodeInBST(nodev.getRigthChild(), code);
-                }
-                Node<K, V> nodec = currN;
-                while (nodec != null && nodec.getParent() != null) {
-                    if (nodec.getParent() != null) {
-                        nodec = nodec.getParent();
-                    }
-                }
-                return nodec;
-
+            Node<K,V> delNode = nodev.searchNode(nodev,code);
+            if(delNode != null){
+                delNode.getParent().rmChildInBST(code);
             }
-            else {
-                Node<K,V> node = nodev.getParent().rmChildInBST(code);
-
-
-                Node currN = node;
-                if (node == null) {
-                    V delValue = nodev.searchNode(nodev,code).getValue();
-                    if(((Comparable)delValue).compareTo(nodev.getValue())<=0){
-                        currN = rmNodeInBST(nodev.getLeftChild(), code);
-                    }
-                    else{
-                        currN = rmNodeInBST(nodev.getRigthChild(), code);
-                    }
+            Node<K, V> nodec = delNode;
+            if(delNode == null) nodec = nodev;
+            while (nodec != null && nodec.getParent() != null) {
+                if (nodec.getParent() != null) {
+                    nodec = nodec.getParent();
                 }
-
-                Node<K, V> nodec = currN;
-                while (nodec != null && nodec.getParent() != null) {
-                    if (nodec.getParent() != null) {
-                        nodec = nodec.getParent();
-                    }
-                }
-                return nodec;
             }
+            return nodec;
         }
     }
 
@@ -511,8 +489,8 @@ public class Node<K extends Comparable<K>,V>  implements Comparator<K>{
             while (!found){
                 if(leftChild != null && leftChild.getKey().compareTo(code)==0) {
                     found = true;
+                    Node<K, V> node = leftChild.getParent();
                     if (!leftChild.isLeaf()) {
-                        Node<K, V> node = leftChild.getParent();
                         for(Node<K,V> n : node.getChilds()){
                             if(n.getKey().compareTo(code)==0){
                                 node.getChilds().remove(n);
@@ -549,19 +527,21 @@ public class Node<K extends Comparable<K>,V>  implements Comparator<K>{
                                 break;
                             }
                         }
+
                         K k = leftChild.getKey();
                         V v = leftChild.getValue();
                         this.grades = this.childs.size();
                         this.setCountSiblings(this.childs.size());
                         Node<K,V> delNode = new Node(k,v);
                         delNode.setParent(leftChild.getParent());
+                        node.setLeftChild(null);
                         return delNode;
                     }
                 }
                 if (rigthChild != null && rigthChild.getKey().compareTo(code) == 0) {
                     found = true;
+                    Node<K, V> node = rigthChild.getParent();
                     if (!rigthChild.isLeaf()) {
-                        Node<K, V> node = rigthChild.getParent();
                         for(Node<K,V> n : node.getChilds()){
                             if(n.getKey().compareTo(code)==0){
                                 node.getChilds().remove(n);
@@ -604,6 +584,7 @@ public class Node<K extends Comparable<K>,V>  implements Comparator<K>{
                         V v = rigthChild.getValue();
                         Node<K,V> delNode = new Node(k,v);
                         delNode.setParent(rigthChild.getParent());
+                        node.setRigthChild(null);
                         return delNode;
                     }
                 }
@@ -655,7 +636,6 @@ public class Node<K extends Comparable<K>,V>  implements Comparator<K>{
                 n.setParent(nodev);
                 nodev.getChilds().add(n);
                 nodev.setLeftChild(n);
-
                 nodesToAdd.remove(0);
             }
             else {
@@ -676,6 +656,7 @@ public class Node<K extends Comparable<K>,V>  implements Comparator<K>{
                 }
             }
         }
+        nodev.setLeaf(nodev.getChilds().size()==0);
     }
 
 
@@ -797,41 +778,117 @@ public class Node<K extends Comparable<K>,V>  implements Comparator<K>{
         }
         return etiqueta;
     }
-    public void graphic(String path) {
+    public void graphicBST(String path) {
         FileWriter fichero = null;
         PrintWriter escritor;
         try
         {
-            fichero = new FileWriter("GTree.dot");
+            if(path.equals("Tree.jpg"))fichero = new FileWriter("GTree.dot");
+            if(path.equals("TreeWithDuplicates.jpg"))fichero = new FileWriter("GTreeWithDuplicates.dot");
             escritor = new PrintWriter(fichero);
-            escritor.print(getCodigoGraphviz());
+            escritor.print(getCodigoGraphvizBST());
         }
         catch (Exception e){
-            System.err.println("Error at graphics GTree.dot");
-        }finally{
+            try{
+                if(path.equals("Tree.jpg"))fichero = new FileWriter("GTree.dot");
+                if(path.equals("TreeWithDuplicates.jpg"))fichero = new FileWriter("GTreeWithDuplicates.dot");
+                escritor = new PrintWriter(fichero);
+                escritor.print(getCodigoGraphvizBST());
+            }
+            catch(Exception ex) {
+                System.err.println("Error at graphic");
+            }
+        }
+        finally{
             try {
                 if (null != fichero)
                     fichero.close();
-            }catch (Exception e2){
-                System.err.println("Error at close GTree.dot");
+            }
+            catch (Exception e2){
+                System.err.println("Error at close file");
             }
         }
         try{
             Runtime rt = Runtime.getRuntime();
-            rt.exec( "dot -Tjpg -o "+path+" GTree.dot");
-            File f = new File(path);
-            Desktop.getDesktop().open(f);
-            //Esperamos medio segundo para dar tiempo a que la imagen se genere.
-            //Para que no sucedan errores en caso de que se decidan graficar varios
-            //árboles sucesivamente.
-            Thread.sleep(500);
+            File file = new File(path);
+            file.delete();
+            Process process=null;
+            if(path.equals("Tree.jpg")){
+                process = rt.exec( "dot -Tjpg -o "+path+" GTree.dot");
+            }
+            if(path.equals("TreeWithDuplicates.jpg")){
+                process = rt.exec( "dot -Tjpg -o "+path+" GTreeWithDuplicates.dot");
+            }
+            while(process.isAlive()){}
+            PdfDocument doc = new PdfDocument();
+            PdfPageBase page = doc.getPages().add();
+            PdfImage image = PdfImage.fromFile(path);
+            double widthFitRate = getImgWidth(new File(path))/ page.getActualBounds(true).getWidth();
+            double heightFitRate = getImgHeight(new File(path))/ page.getActualBounds(true).getHeight();
+            double fitRate = Math.max(widthFitRate, heightFitRate);
+            double fitWidth = getImgWidth(new File(path)) / fitRate*0.8f;
+            double fitHeight = getImgHeight(new File(path))/ fitRate*0.8f;
+            page.getCanvas().drawImage(image, 50, 30, fitWidth, fitHeight);
+            doc.saveToFile(path.replace(".jpg",".pdf"));
+            doc.close();
+            File f = new File(path.replace(".jpg",".pdf"));
+            f.setWritable(false);
+            String s = f.getPath();
+            try {
+                Runtime.getRuntime().exec("okular " + f.getPath());
+            }
+            catch(Exception e){
+                Desktop.getDesktop().open(f);
+            }
         } catch (Exception ex) {
             ex.printStackTrace();
-            System.err.println("Error at graphics GTree.dot");
+            System.err.println("Error at graphic");
         }
     }
 
+    private static int getImgHeight(File ImageFile) {
+
+        InputStream is = null;
+        BufferedImage src = null;
+
+        int ret = -1;
+
+        try {
+            is = new FileInputStream(ImageFile);
+            src = javax.imageio.ImageIO.read(is);
+            ret = src.getHeight(null);
+            is.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return ret;
+    }
+
+
+
+    private static int getImgWidth(File ImageFile) {
+
+        InputStream is = null;
+        BufferedImage src = null;
+
+        int ret = -1;
+
+        try {
+            is = new FileInputStream(ImageFile);
+            src = javax.imageio.ImageIO.read(is);
+            ret = src.getWidth(null);
+            is.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return ret;
+    }
+
+
     private String getCodigoGraphvizBST() {
+        size=0;
         return "digraph grafica{\n" +
                 "labelloc=\"t\";"+
                 "label =\"RESULTANT TREE\n\""+
@@ -841,47 +898,55 @@ public class Node<K extends Comparable<K>,V>  implements Comparator<K>{
                 "}\n";
     }
 
-
+private int size;
     private String getCodigoInternoBST() {
         String etiqueta;
+        size++;
         if(childs.size()==0){
-            etiqueta="nodo"+this.getKey()+" [ label =\""+this.getValue().toString()+"\"];\n";
-        }else{
-
-            etiqueta="nodo"+this.getKey()+" [ label =\"<C0>|"+this.getValue().toString()+"|<C1>\"];\n";
+            etiqueta="nodo"+this.getKey()+" [ label =\""+"key("+this.getKey()+")-value("+this.getValue().toString()+")\"];\n";
         }
-        int i = 0;
-        int size = this.getChilds().size();
+        else{
+
+            etiqueta="nodo"+this.getKey()+" [ label =\"<C0>|"+"key("+this.getKey()+")-value("+this.getValue().toString()+")|<C1>\"];\n";
+        }
         for(Node<K,V> node : this.getChilds()){
             if(((Comparable)node.getValue()).compareTo(this.getValue())<=0){
                 etiqueta=etiqueta + node.getCodigoInternoBST() +
-                        "nodo"+node.getParent().getKey()+":C"+i+"->nodo"+node.getKey()+"\n";
+                        "nodo"+node.getParent().getKey()+":C0->nodo"+node.getKey()+"\n";
             }
             else{
                 etiqueta=etiqueta + node.getCodigoInternoBST() +
-                        "nodo"+this.getKey()+":C"+(i+1)+"->nodo"+node.getKey()+"\n";
+                        "nodo"+this.getKey()+":C1->nodo"+node.getKey()+"\n";
             }
 
         }
         return etiqueta;
     }
-    public void graphicBST(String path) {
+    public void graphic(String path) {
         FileWriter fichero = null;
         PrintWriter escritor;
         try
         {
             fichero = new FileWriter("GTree.dot");
             escritor = new PrintWriter(fichero);
-            escritor.print(getCodigoGraphvizBST());
+            BufferedImage img = null;
+            try {
+                img = ImageIO.read(new File(path));
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                ImageIO.write(img, "jpg", baos);
+            }
+            catch (IOException e) {}
+            escritor.print(getCodigoGraphviz());
         }
         catch (Exception e){
+            e.printStackTrace();
             System.err.println("Error at graphics GTree.dot");
         }finally{
             try {
                 if (null != fichero)
                     fichero.close();
             }catch (Exception e2){
-                System.err.println("Error at close GTree.dot");
+                System.err.println("Error at close GTree.dot0");
             }
         }
         try{

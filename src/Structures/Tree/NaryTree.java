@@ -122,6 +122,8 @@ public class NaryTree<K extends Comparable<K>,V> implements Map<K,V> {
         if(node != null){
             return node.getValue();
         }
+        size--;
+        if(size == 0) root = null;
         return null;
     }
 

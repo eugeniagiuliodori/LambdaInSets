@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+Extension-Name: spire.pdf
+Implementation-Title: spire.pdf for java
+Implementation-Version: 2.2.0
+Implementation-Vendor: E-iceblue Co., Ltd
+Implementation-Vendor-Id: com.spire
+Implementation-URL: https://www.e-iceblue.com

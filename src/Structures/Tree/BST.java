@@ -34,12 +34,24 @@ public class BST<K extends Comparable<K>,V> extends NaryTree<K,V>{
     }
 
     @Override
+    public boolean remove(Object key, Object value){
+        try {
+            remove(key);
+            return true;
+        }
+        catch(Exception e){
+            return false;
+        }
+    }
+
+
+    @Override
     public V remove(Object key){
-        //this.getRoot().rmNodeInBST(this.getRoot(),(K)key);
         Node<K,V> nres = this.getRoot().rmNodeInBST(this.getRoot(),(K)key);
         this.setRoot(nres);
         size--;
-        return nres.getValue();
+        if(size == 0) this.setRoot(null);
+        if (nres != null) return nres.getValue(); else return null;
     }
 
 

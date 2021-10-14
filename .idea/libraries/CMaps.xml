@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="CMaps">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/com/spire/pdf/general/render/font/CMaps.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

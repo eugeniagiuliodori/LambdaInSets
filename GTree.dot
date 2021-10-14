@@ -2,15 +2,53 @@ digraph grafica{
 labelloc="t";label ="RESULTANT TREE
 "rankdir=TB;
 node [shape = record, style=filled, fillcolor=seashell2];
-nodo1 [ label ="<C0>|4|<C1>"];
-nodo3 [ label ="<C0>|12|<C1>"];
-nodo2 [ label ="8"];
-nodo3:C0->nodo2
-nodo4 [ label ="<C0>|16|<C1>"];
-nodo5 [ label ="<C0>|20|<C1>"];
-nodo6 [ label ="24"];
+nodo1 [ label ="<C0>|key(1)-value(2)|<C1>"];
+nodo2 [ label ="<C0>|key(2)-value(4)|<C1>"];
+nodo3 [ label ="<C0>|key(3)-value(6)|<C1>"];
+nodo4 [ label ="<C0>|key(4)-value(8)|<C1>"];
+nodo5 [ label ="<C0>|key(5)-value(10)|<C1>"];
+nodo6 [ label ="<C0>|key(6)-value(12)|<C1>"];
+nodo7 [ label ="<C0>|key(7)-value(14)|<C1>"];
+nodo8 [ label ="<C0>|key(8)-value(16)|<C1>"];
+nodo9 [ label ="<C0>|key(9)-value(18)|<C1>"];
+nodo10 [ label ="<C0>|key(10)-value(20)|<C1>"];
+nodo11 [ label ="<C0>|key(11)-value(22)|<C1>"];
+nodo12 [ label ="<C0>|key(12)-value(24)|<C1>"];
+nodo13 [ label ="<C0>|key(13)-value(26)|<C1>"];
+nodo14 [ label ="<C0>|key(14)-value(28)|<C1>"];
+nodo15 [ label ="<C0>|key(15)-value(30)|<C1>"];
+nodo16 [ label ="<C0>|key(16)-value(32)|<C1>"];
+nodo17 [ label ="<C0>|key(17)-value(34)|<C1>"];
+nodo18 [ label ="<C0>|key(18)-value(36)|<C1>"];
+nodo19 [ label ="<C0>|key(19)-value(38)|<C1>"];
+nodo20 [ label ="<C0>|key(20)-value(40)|<C1>"];
+nodo21 [ label ="<C0>|key(21)-value(42)|<C1>"];
+nodo22 [ label ="<C0>|key(22)-value(44)|<C1>"];
+nodo23 [ label ="<C0>|key(23)-value(46)|<C1>"];
+nodo24 [ label ="<C0>|key(24)-value(48)|<C1>"];
+nodo25 [ label ="key(25)-value(50)"];
+nodo24:C1->nodo25
+nodo23:C1->nodo24
+nodo22:C1->nodo23
+nodo21:C1->nodo22
+nodo20:C1->nodo21
+nodo19:C1->nodo20
+nodo18:C1->nodo19
+nodo17:C1->nodo18
+nodo16:C1->nodo17
+nodo15:C1->nodo16
+nodo14:C1->nodo15
+nodo13:C1->nodo14
+nodo12:C1->nodo13
+nodo11:C1->nodo12
+nodo10:C1->nodo11
+nodo9:C1->nodo10
+nodo8:C1->nodo9
+nodo7:C1->nodo8
+nodo6:C1->nodo7
 nodo5:C1->nodo6
 nodo4:C1->nodo5
 nodo3:C1->nodo4
-nodo1:C1->nodo3
+nodo2:C1->nodo3
+nodo1:C1->nodo2
 }

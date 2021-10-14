@@ -1,0 +1,50 @@
+digraph grafica{
+labelloc="t";label ="RESULTANT TREE
+"rankdir=TB;
+node [shape = record, style=filled, fillcolor=seashell2];
+nodo1 [ label ="<C0>|key(1)-value(4)|<C1>"];
+nodo13 [ label ="<C0>|key(13)-value(52)|<C1>"];
+nodo14 [ label ="<C0>|key(14)-value(56)|<C1>"];
+nodo15 [ label ="<C0>|key(15)-value(60)|<C1>"];
+nodo16 [ label ="<C0>|key(16)-value(64)|<C1>"];
+nodo17 [ label ="<C0>|key(17)-value(68)|<C1>"];
+nodo18 [ label ="<C0>|key(18)-value(72)|<C1>"];
+nodo19 [ label ="<C0>|key(19)-value(76)|<C1>"];
+nodo20 [ label ="<C0>|key(20)-value(80)|<C1>"];
+nodo21 [ label ="<C0>|key(21)-value(84)|<C1>"];
+nodo22 [ label ="<C0>|key(22)-value(88)|<C1>"];
+nodo23 [ label ="<C0>|key(23)-value(92)|<C1>"];
+nodo24 [ label ="key(24)-value(96)"];
+nodo23:C1->nodo24
+nodo22:C1->nodo23
+nodo21:C1->nodo22
+nodo20:C1->nodo21
+nodo19:C1->nodo20
+nodo18:C1->nodo19
+nodo17:C1->nodo18
+nodo16:C1->nodo17
+nodo15:C1->nodo16
+nodo14:C1->nodo15
+nodo13:C1->nodo14
+nodo12 [ label ="<C0>|key(12)-value(48)|<C1>"];
+nodo11 [ label ="<C0>|key(11)-value(44)|<C1>"];
+nodo10 [ label ="<C0>|key(10)-value(40)|<C1>"];
+nodo9 [ label ="<C0>|key(9)-value(36)|<C1>"];
+nodo8 [ label ="<C0>|key(8)-value(32)|<C1>"];
+nodo7 [ label ="<C0>|key(7)-value(28)|<C1>"];
+nodo6 [ label ="<C0>|key(6)-value(24)|<C1>"];
+nodo5 [ label ="<C0>|key(5)-value(20)|<C1>"];
+nodo4 [ label ="<C0>|key(4)-value(16)|<C1>"];
+nodo3 [ label ="key(3)-value(12)"];
+nodo4:C0->nodo3
+nodo5:C0->nodo4
+nodo6:C0->nodo5
+nodo7:C0->nodo6
+nodo8:C0->nodo7
+nodo9:C0->nodo8
+nodo10:C0->nodo9
+nodo11:C0->nodo10
+nodo12:C0->nodo11
+nodo13:C0->nodo12
+nodo1:C1->nodo13
+}
