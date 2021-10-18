@@ -1,5 +1,6 @@
 package Structures.Tree;
 
+import Structures.Lambda.SimpleEntry;
 import jdk.internal.util.xml.impl.Pair;
 
 import java.util.*;
@@ -20,10 +21,12 @@ public class NaryTree<K extends Comparable<K>,V> implements Map<K,V> {
             root = new Node(code, value);
             root.setLeaf(true);
             root.setIsRoot(true);
+            root.setParent(null);
             size=1;
         }
         else{
             size++;
+            if(size==2) root.setLeaf(false);
             root.addNode(root,code,value);
         }
     }
@@ -34,16 +37,10 @@ public class NaryTree<K extends Comparable<K>,V> implements Map<K,V> {
     }
 
     private Node<K,V> rm(K code){
-        Node<K,V> node = root;
-        if(root != null && root.getKey().compareTo(code)==0){
-            root = root.rmNode(root,code);
-        }
-        else{
-            node = root.rmNode(root,code);
-        }
-        //por que no se impactan los cambios en puntero root, si no hago la asignacion?
-        size++;
-        return node;
+        Node<K,V> n = root.rmNode(root,code);
+        this.setRoot(n);
+        size--;
+        return root;
     }
 
     public void update(K code, V value){
@@ -122,7 +119,6 @@ public class NaryTree<K extends Comparable<K>,V> implements Map<K,V> {
         if(node != null){
             return node.getValue();
         }
-        size--;
         if(size == 0) root = null;
         return null;
     }
@@ -137,8 +133,20 @@ public class NaryTree<K extends Comparable<K>,V> implements Map<K,V> {
 
     @Override
     public Set<K> keySet() {
-        return null;
+        Set<K> set = new HashSet<>();
+        if(this.values().iterator().hasNext()) {
+            for (V value : this.values()) {
+                List<Node<K, V>> listValue = this.searchs(value);
+                for (Node<K, V> node : listValue) {
+                    if(!set.contains(node.getKey())){
+                        set.add(node.getKey());
+                    }
+                }
+            }
+        }
+        return set;
     }
+
 
     @Override
     public Collection<V> values() {
@@ -147,12 +155,17 @@ public class NaryTree<K extends Comparable<K>,V> implements Map<K,V> {
 
     @Override
     public Set<Entry<K, V>> entrySet() {
-        return null;
+        Set<Entry<K,V>> set = new HashSet<>();
+        for(K key : this.keySet()){
+            Entry<K,V> entry = new SimpleEntry(key,this.search(key).getValue());
+            set.add(entry);
+        }
+        return set;
     }
 
     @Override
     public boolean equals(Object o) {
-        return false;
+        return this.equals(o);
     }
 
     @Override

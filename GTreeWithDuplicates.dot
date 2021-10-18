@@ -3,29 +3,18 @@ labelloc="t";label ="RESULTANT TREE
 "rankdir=TB;
 node [shape = record, style=filled, fillcolor=seashell2];
 nodo1 [ label ="<C0>|key(1)-value(4)|<C1>"];
-nodo13 [ label ="<C0>|key(13)-value(52)|<C1>"];
-nodo14 [ label ="<C0>|key(14)-value(56)|<C1>"];
-nodo15 [ label ="<C0>|key(15)-value(60)|<C1>"];
-nodo16 [ label ="<C0>|key(16)-value(64)|<C1>"];
-nodo17 [ label ="<C0>|key(17)-value(68)|<C1>"];
-nodo18 [ label ="<C0>|key(18)-value(72)|<C1>"];
-nodo19 [ label ="<C0>|key(19)-value(76)|<C1>"];
-nodo20 [ label ="<C0>|key(20)-value(80)|<C1>"];
-nodo21 [ label ="<C0>|key(21)-value(84)|<C1>"];
-nodo22 [ label ="<C0>|key(22)-value(88)|<C1>"];
+nodo24 [ label ="<C0>|key(24)-value(96)|<C1>"];
 nodo23 [ label ="<C0>|key(23)-value(92)|<C1>"];
-nodo24 [ label ="key(24)-value(96)"];
-nodo23:C1->nodo24
-nodo22:C1->nodo23
-nodo21:C1->nodo22
-nodo20:C1->nodo21
-nodo19:C1->nodo20
-nodo18:C1->nodo19
-nodo17:C1->nodo18
-nodo16:C1->nodo17
-nodo15:C1->nodo16
-nodo14:C1->nodo15
-nodo13:C1->nodo14
+nodo22 [ label ="<C0>|key(22)-value(88)|<C1>"];
+nodo21 [ label ="<C0>|key(21)-value(84)|<C1>"];
+nodo20 [ label ="<C0>|key(20)-value(80)|<C1>"];
+nodo19 [ label ="<C0>|key(19)-value(76)|<C1>"];
+nodo18 [ label ="<C0>|key(18)-value(72)|<C1>"];
+nodo17 [ label ="<C0>|key(17)-value(68)|<C1>"];
+nodo16 [ label ="<C0>|key(16)-value(64)|<C1>"];
+nodo15 [ label ="<C0>|key(15)-value(60)|<C1>"];
+nodo14 [ label ="<C0>|key(14)-value(56)|<C1>"];
+nodo13 [ label ="<C0>|key(13)-value(52)|<C1>"];
 nodo12 [ label ="<C0>|key(12)-value(48)|<C1>"];
 nodo11 [ label ="<C0>|key(11)-value(44)|<C1>"];
 nodo10 [ label ="<C0>|key(10)-value(40)|<C1>"];
@@ -46,5 +35,66 @@ nodo10:C0->nodo9
 nodo11:C0->nodo10
 nodo12:C0->nodo11
 nodo13:C0->nodo12
-nodo1:C1->nodo13
+nodo14:C0->nodo13
+nodo15:C0->nodo14
+nodo16:C0->nodo15
+nodo17:C0->nodo16
+nodo18:C0->nodo17
+nodo19:C0->nodo18
+nodo20:C0->nodo19
+nodo21:C0->nodo20
+nodo22:C0->nodo21
+nodo23:C0->nodo22
+nodo24:C0->nodo23
+nodo26 [ label ="<C0>|key(26)-value(104)|<C1>"];
+nodo27 [ label ="<C0>|key(27)-value(108)|<C1>"];
+nodo28 [ label ="<C0>|key(28)-value(112)|<C1>"];
+nodo29 [ label ="<C0>|key(29)-value(116)|<C1>"];
+nodo30 [ label ="<C0>|key(30)-value(120)|<C1>"];
+nodo31 [ label ="<C0>|key(31)-value(124)|<C1>"];
+nodo32 [ label ="<C0>|key(32)-value(128)|<C1>"];
+nodo33 [ label ="<C0>|key(33)-value(132)|<C1>"];
+nodo34 [ label ="<C0>|key(34)-value(136)|<C1>"];
+nodo35 [ label ="<C0>|key(35)-value(140)|<C1>"];
+nodo36 [ label ="<C0>|key(36)-value(144)|<C1>"];
+nodo37 [ label ="<C0>|key(37)-value(148)|<C1>"];
+nodo38 [ label ="<C0>|key(38)-value(152)|<C1>"];
+nodo39 [ label ="<C0>|key(39)-value(156)|<C1>"];
+nodo40 [ label ="<C0>|key(40)-value(160)|<C1>"];
+nodo41 [ label ="<C0>|key(41)-value(164)|<C1>"];
+nodo42 [ label ="<C0>|key(42)-value(168)|<C1>"];
+nodo43 [ label ="<C0>|key(43)-value(172)|<C1>"];
+nodo44 [ label ="<C0>|key(44)-value(176)|<C1>"];
+nodo45 [ label ="<C0>|key(45)-value(180)|<C1>"];
+nodo46 [ label ="<C0>|key(46)-value(184)|<C1>"];
+nodo47 [ label ="<C0>|key(47)-value(188)|<C1>"];
+nodo48 [ label ="<C0>|key(48)-value(192)|<C1>"];
+nodo49 [ label ="<C0>|key(49)-value(196)|<C1>"];
+nodo50 [ label ="key(50)-value(200)"];
+nodo49:C1->nodo50
+nodo48:C1->nodo49
+nodo47:C1->nodo48
+nodo46:C1->nodo47
+nodo45:C1->nodo46
+nodo44:C1->nodo45
+nodo43:C1->nodo44
+nodo42:C1->nodo43
+nodo41:C1->nodo42
+nodo40:C1->nodo41
+nodo39:C1->nodo40
+nodo38:C1->nodo39
+nodo37:C1->nodo38
+nodo36:C1->nodo37
+nodo35:C1->nodo36
+nodo34:C1->nodo35
+nodo33:C1->nodo34
+nodo32:C1->nodo33
+nodo31:C1->nodo32
+nodo30:C1->nodo31
+nodo29:C1->nodo30
+nodo28:C1->nodo29
+nodo27:C1->nodo28
+nodo26:C1->nodo27
+nodo24:C1->nodo26
+nodo1:C1->nodo24
 }

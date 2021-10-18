@@ -2,29 +2,44 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f09faa99-f3e5-4c0d-a2a9-0fe02d52920d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/CMaps.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Spire_Pdf.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/GTree.dot" beforeDir="false" afterPath="$PROJECT_DIR$/GTree.dot" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LambdaInSets.iml" beforeDir="false" afterPath="$PROJECT_DIR$/LambdaInSets.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GTreeWithDuplicates.dot" beforeDir="false" afterPath="$PROJECT_DIR$/GTreeWithDuplicates.dot" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Tree.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/Tree.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tree.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/Tree.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TreeWithDuplicates.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/TreeWithDuplicates.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TreeWithDuplicates.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/TreeWithDuplicates.pdf" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/LambdaInSets/Structures/Lambda/Test.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/LambdaInSets/Structures/Lambda/Test.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/LambdaInSets/Structures/Tree/BST.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/LambdaInSets/Structures/Tree/BST.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/LambdaInSets/Structures/Tree/NaryTree.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/LambdaInSets/Structures/Tree/NaryTree.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/LambdaInSets/Structures/Tree/Node.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/LambdaInSets/Structures/Tree/Node.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/LambdaInSets/Structures/Tree/Tests.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/LambdaInSets/Structures/Tree/Tests.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Structures/Lambda/Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Structures/Lambda/Test.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Structures/Tree/BST.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Structures/Tree/BST.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Structures/Tree/NaryTree.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Structures/Tree/NaryTree.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Structures/Tree/Node.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Structures/Tree/Node.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Structures/Tree/Tests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Structures/Tree/Tests.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
   </component>
   <component name="ProjectId" id="1zV9yo1fc51nLfGW8wSNBDB8cpz" />
   <component name="ProjectViewState">
@@ -81,5 +96,18 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="XDebuggerManager">
+    <pin-to-top-manager>
+      <pinned-members>
+        <PinnedItemInfo parentTag="Structures.Tree.Node" memberName="childs" />
+      </pinned-members>
+    </pin-to-top-manager>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/LambdaInSets$Test.ic" NAME="Test Coverage Results" MODIFIED="1634395235888" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>Structures.Lambda.*</FILTER>
+    </SUITE>
   </component>
 </project>
