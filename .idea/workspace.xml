@@ -3,14 +3,12 @@
   <component name="ChangeListManager">
     <list default="true" id="f09faa99-f3e5-4c0d-a2a9-0fe02d52920d" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GTree.dot" beforeDir="false" afterPath="$PROJECT_DIR$/GTree.dot" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GTreeWithDuplicates.dot" beforeDir="false" afterPath="$PROJECT_DIR$/GTreeWithDuplicates.dot" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tree.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/Tree.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tree.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/Tree.pdf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TreeWithDuplicates.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/TreeWithDuplicates.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TreeWithDuplicates.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/TreeWithDuplicates.pdf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/LambdaInSets/Structures/Lambda/Test.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/LambdaInSets/Structures/Lambda/Test.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/LambdaInSets/Structures/Tree/Node.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/LambdaInSets/Structures/Tree/Node.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GTree.dot" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/GTreeWithDuplicates.dot" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tree.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tree.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/TreeWithDuplicates.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/TreeWithDuplicates.pdf" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Structures/Lambda/Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Structures/Lambda/Test.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Structures/Tree/Node.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Structures/Tree/Node.java" afterDir="false" />
     </list>
@@ -95,6 +93,15 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/Structures/Lambda/Test.java</url>
+          <line>15</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
     <pin-to-top-manager>
       <pinned-members>
         <PinnedItemInfo parentTag="Structures.Tree.Node" memberName="childs" />

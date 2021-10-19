@@ -13,7 +13,20 @@ public class Test {
 
 
     public static void main(String[] args){
-        NaryTree<Integer,Integer> tree = new BST();
+        showCalculates(new BST());
+        showCalculates(new NaryTree<>());
+
+    }
+
+
+    private static void showCalculates(NaryTree<Integer,Integer> tree){
+        String type = new String("");
+        if(tree instanceof BST){
+            type = new String("BST");
+        }
+        else{
+            type = new String("N-ARY");
+        }
         TriConsumer<NaryTree<Integer,Integer>, Integer, Integer> loadTree = (t, order, size) -> {
             Order.setOrder(new Integer(order));
             Integer k = new Integer(0);
@@ -27,7 +40,7 @@ public class Test {
         BiFunction<NaryTree,Integer,Integer> getKey = (t, value) -> {
             t.searchs(value);
             if(t.searchs(value).size()>0) {
-               return  ((List<Node<Integer,Integer>>) t.searchs(value)).get(0).getKey();
+                return  ((List<Node<Integer,Integer>>) t.searchs(value)).get(0).getKey();
             }
             else{
                 return -1;
@@ -49,19 +62,18 @@ public class Test {
         BiConsumer<NaryTree<Integer,Integer>, Integer> showValues = (t,i) -> t.values().stream().sorted().forEach(e-> biconsumer.accept(menor.test(count.get(),i),e));
 
         loadTree.accept(tree,new Integer(2),new Integer(100));
-        tree.getRoot().graphic("Tree.jpg");
-        System.out.println("VALUES IN TREE");
+        tree.getRoot().graphic(type+"Tree.jpg");
+        System.out.println("VALUES IN "+type + " TREE");
         showValues.accept(tree, tree.size());
-        System.out.println("DUPLICATED VALUES OF THE TREE");
+        System.out.println("DUPLICATED VALUES OF THE "+type+" TREE");
         count.set(1);
         showValues.accept(fgetDuplicateValues.apply(tree),new Integer(tree.size()));
         tree.put(new Integer(100),new Integer(93));
-        System.out.println("VALUES THEN TO REMOVE TWO NUMBERS");
+        System.out.println("VALUES THEN TO REMOVE TWO NUMBERS IN "+type +" TREE");
         count.set(1);
         showValues.accept(tree, tree.size());
-        tree.getRoot().graphic("TreeWithDuplicates.jpg");
+        tree.getRoot().graphic(type+"TreeWithDuplicates.jpg");
     }
-
 
 
 

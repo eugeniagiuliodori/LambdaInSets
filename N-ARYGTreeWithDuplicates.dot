@@ -1,0 +1,106 @@
+digraph grafica{
+labelloc="t";label ="RESULTANT N-ARY TREE
+"rankdir=TB;
+node [shape = record, style=filled, fillcolor=seashell2];
+nodo8 [ label ="level(1)-grades(2)-key(8)-value(32)"];
+nodo21 [ label ="level(2)-grades(2)-key(21)-value(84)"];
+nodo31 [ label ="level(3)-grades(2)-key(31)-value(124)"];
+nodo35 [ label ="level(4)-grades(2)-key(35)-value(140)"];
+nodo40 [ label ="level(5)-grades(2)-key(40)-value(160)"];
+nodo46 [ label ="level(6)-grades(0)-key(46)-value(184)"];
+nodo40->nodo46
+nodo50 [ label ="level(6)-grades(0)-key(50)-value(200)"];
+nodo40->nodo50
+nodo35->nodo40
+nodo3 [ label ="level(5)-grades(1)-key(3)-value(12)"];
+nodo2 [ label ="level(6)-grades(0)-key(2)-value(8)"];
+nodo3->nodo2
+nodo35->nodo3
+nodo31->nodo35
+nodo19 [ label ="level(4)-grades(2)-key(19)-value(76)"];
+nodo5 [ label ="level(5)-grades(1)-key(5)-value(20)"];
+nodo4 [ label ="level(6)-grades(0)-key(4)-value(16)"];
+nodo5->nodo4
+nodo19->nodo5
+nodo32 [ label ="level(5)-grades(1)-key(32)-value(128)"];
+nodo14 [ label ="level(6)-grades(0)-key(14)-value(56)"];
+nodo32->nodo14
+nodo19->nodo32
+nodo31->nodo19
+nodo21->nodo31
+nodo34 [ label ="level(3)-grades(2)-key(34)-value(136)"];
+nodo20 [ label ="level(4)-grades(2)-key(20)-value(80)"];
+nodo22 [ label ="level(5)-grades(2)-key(22)-value(88)"];
+nodo41 [ label ="level(6)-grades(0)-key(41)-value(164)"];
+nodo22->nodo41
+nodo49 [ label ="level(6)-grades(0)-key(49)-value(196)"];
+nodo22->nodo49
+nodo20->nodo22
+nodo27 [ label ="level(5)-grades(1)-key(27)-value(108)"];
+nodo42 [ label ="level(6)-grades(0)-key(42)-value(168)"];
+nodo27->nodo42
+nodo20->nodo27
+nodo34->nodo20
+nodo15 [ label ="level(4)-grades(2)-key(15)-value(60)"];
+nodo23 [ label ="level(5)-grades(1)-key(23)-value(92)"];
+nodo26 [ label ="level(6)-grades(0)-key(26)-value(104)"];
+nodo23->nodo26
+nodo15->nodo23
+nodo10 [ label ="level(5)-grades(1)-key(10)-value(40)"];
+nodo25 [ label ="level(6)-grades(0)-key(25)-value(100)"];
+nodo10->nodo25
+nodo15->nodo10
+nodo34->nodo15
+nodo21->nodo34
+nodo8->nodo21
+nodo18 [ label ="level(2)-grades(2)-key(18)-value(72)"];
+nodo33 [ label ="level(3)-grades(2)-key(33)-value(132)"];
+nodo36 [ label ="level(4)-grades(2)-key(36)-value(144)"];
+nodo13 [ label ="level(5)-grades(2)-key(13)-value(52)"];
+nodo7 [ label ="level(6)-grades(0)-key(7)-value(28)"];
+nodo13->nodo7
+nodo45 [ label ="level(6)-grades(0)-key(45)-value(180)"];
+nodo13->nodo45
+nodo36->nodo13
+nodo43 [ label ="level(5)-grades(1)-key(43)-value(172)"];
+nodo39 [ label ="level(6)-grades(0)-key(39)-value(156)"];
+nodo43->nodo39
+nodo36->nodo43
+nodo33->nodo36
+nodo38 [ label ="level(4)-grades(2)-key(38)-value(152)"];
+nodo37 [ label ="level(5)-grades(1)-key(37)-value(148)"];
+nodo11 [ label ="level(6)-grades(0)-key(11)-value(44)"];
+nodo37->nodo11
+nodo38->nodo37
+nodo6 [ label ="level(5)-grades(1)-key(6)-value(24)"];
+nodo48 [ label ="level(6)-grades(0)-key(48)-value(192)"];
+nodo6->nodo48
+nodo38->nodo6
+nodo33->nodo38
+nodo18->nodo33
+nodo17 [ label ="level(3)-grades(2)-key(17)-value(68)"];
+nodo12 [ label ="level(4)-grades(2)-key(12)-value(48)"];
+nodo24 [ label ="level(5)-grades(2)-key(24)-value(96)"];
+nodo44 [ label ="level(6)-grades(0)-key(44)-value(176)"];
+nodo24->nodo44
+nodo100 [ label ="level(6)-grades(0)-key(100)-value(93)"];
+nodo24->nodo100
+nodo12->nodo24
+nodo30 [ label ="level(5)-grades(1)-key(30)-value(120)"];
+nodo47 [ label ="level(6)-grades(0)-key(47)-value(188)"];
+nodo30->nodo47
+nodo12->nodo30
+nodo17->nodo12
+nodo9 [ label ="level(4)-grades(2)-key(9)-value(36)"];
+nodo1 [ label ="level(5)-grades(1)-key(1)-value(4)"];
+nodo29 [ label ="level(6)-grades(0)-key(29)-value(116)"];
+nodo1->nodo29
+nodo9->nodo1
+nodo28 [ label ="level(5)-grades(1)-key(28)-value(112)"];
+nodo16 [ label ="level(6)-grades(0)-key(16)-value(64)"];
+nodo28->nodo16
+nodo9->nodo28
+nodo17->nodo9
+nodo18->nodo17
+nodo8->nodo18
+}

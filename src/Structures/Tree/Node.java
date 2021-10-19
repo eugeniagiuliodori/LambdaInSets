@@ -802,7 +802,7 @@ public class Node<K extends Comparable<K>,V>  implements Comparator<K>{
         String s="";
         return "digraph grafica{\n" +
                 "labelloc=\"t\";"+
-                "label =\"RESULTANT TREE\n\""+
+                "label =\"RESULTANT N-ARY TREE\n\""+
                 "rankdir=TB;\n" +
                 "node [shape = record, style=filled, fillcolor=seashell2];\n"+
                 getCodigoInterno()+
@@ -827,12 +827,20 @@ public class Node<K extends Comparable<K>,V>  implements Comparator<K>{
     public void graphic(String path) {
         FileWriter fichero = null;
         PrintWriter escritor;
+        String type = new String("");
+        Node<K,V> node = this;
+        if(node.getLeftChild()!=null || node.getRigthChild()!=null){
+            type = new String("BST");
+        }
+        else{
+            type = new String("N-ARY");
+        }
         try
         {
-            if(path.equals("Tree.jpg"))fichero = new FileWriter("GTree.dot");
-            if(path.equals("TreeWithDuplicates.jpg"))fichero = new FileWriter("GTreeWithDuplicates.dot");
+            if(path.equals(type+"Tree.jpg"))fichero = new FileWriter(type+"GTree.dot");
+            if(path.equals(type+"TreeWithDuplicates.jpg"))fichero = new FileWriter(type+"GTreeWithDuplicates.dot");
             escritor = new PrintWriter(fichero);
-            Node<K,V> node = this;
+
             while(node.getParent()!=null){
                 node=node.getParent();
             }
@@ -845,14 +853,13 @@ public class Node<K extends Comparable<K>,V>  implements Comparator<K>{
         }
         catch (Exception e){
             try{
-                if(path.equals("Tree.jpg"))fichero = new FileWriter("GTree.dot");
-                if(path.equals("TreeWithDuplicates.jpg"))fichero = new FileWriter("GTreeWithDuplicates.dot");
+                if(path.equals(type+"Tree.jpg"))fichero = new FileWriter(type+"GTree.dot");
+                if(path.equals(type+"TreeWithDuplicates.jpg"))fichero = new FileWriter(type+"GTreeWithDuplicates.dot");
                 escritor = new PrintWriter(fichero);
-                Node<K,V> node = this;
                 while(node.getParent()!=null){
                     node=node.getParent();
                 }
-                if(this != node && (node.getLeftChild()!=null || node.getRigthChild()!=null)){//if is BST
+                if(node.getLeftChild()!=null || node.getRigthChild()!=null){//if is BST
                     escritor.print(getCodigoGraphvizBST());
                 }
                 else{
@@ -878,11 +885,11 @@ public class Node<K extends Comparable<K>,V>  implements Comparator<K>{
             File file = new File(path);
             file.delete();
             Process process=null;
-            if(path.equals("Tree.jpg")){
-                process = rt.exec( "dot -Tjpg -o "+path+" GTree.dot");
+            if(path.equals(type+"Tree.jpg")){
+                process = rt.exec( "dot -Tjpg -o "+path+" "+type+"GTree.dot");
             }
-            if(path.equals("TreeWithDuplicates.jpg")){
-                process = rt.exec( "dot -Tjpg -o "+path+" GTreeWithDuplicates.dot");
+            if(path.equals(type+"TreeWithDuplicates.jpg")){
+                process = rt.exec( "dot -Tjpg -o "+path+" "+type+"GTreeWithDuplicates.dot");
             }
             while(process.isAlive()){}
             PdfDocument doc = new PdfDocument();
@@ -956,7 +963,7 @@ public class Node<K extends Comparable<K>,V>  implements Comparator<K>{
         size=0;
         return "digraph grafica{\n" +
                 "labelloc=\"t\";"+
-                "label =\"RESULTANT TREE\n\""+
+                "label =\"RESULTANT BST TREE\n\""+
                 "rankdir=TB;\n" +
                 "node [shape = record, style=filled, fillcolor=seashell2];\n"+
                 getCodigoInternoBST()+
