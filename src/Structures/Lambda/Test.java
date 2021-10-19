@@ -55,8 +55,7 @@ public class Test {
         System.out.println("DUPLICATED VALUES OF THE TREE");
         count.set(1);
         showValues.accept(fgetDuplicateValues.apply(tree),new Integer(tree.size()));
-        tree.remove(new Integer(2));
-        tree.remove(new Integer(25));
+        tree.put(new Integer(100),new Integer(93));
         System.out.println("VALUES THEN TO REMOVE TWO NUMBERS");
         count.set(1);
         showValues.accept(tree, tree.size());
