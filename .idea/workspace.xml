@@ -3,14 +3,25 @@
   <component name="ChangeListManager">
     <list default="true" id="f09faa99-f3e5-4c0d-a2a9-0fe02d52920d" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GTree.dot" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/GTreeWithDuplicates.dot" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tree.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tree.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/TreeWithDuplicates.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/TreeWithDuplicates.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BSTGTree.dot" beforeDir="false" afterPath="$PROJECT_DIR$/BSTGTree.dot" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BSTGTreeWithDuplicates.dot" beforeDir="false" afterPath="$PROJECT_DIR$/BSTGTreeWithDuplicates.dot" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BSTTree.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/BSTTree.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BSTTree.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/BSTTree.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BSTTreeWithDuplicates.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/BSTTreeWithDuplicates.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BSTTreeWithDuplicates.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/BSTTreeWithDuplicates.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/N-ARYGTree.dot" beforeDir="false" afterPath="$PROJECT_DIR$/N-ARYGTree.dot" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/N-ARYGTreeWithDuplicates.dot" beforeDir="false" afterPath="$PROJECT_DIR$/N-ARYGTreeWithDuplicates.dot" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/N-ARYTree.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/N-ARYTree.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/N-ARYTree.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/N-ARYTree.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/N-ARYTreeWithDuplicates.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/N-ARYTreeWithDuplicates.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/N-ARYTreeWithDuplicates.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/N-ARYTreeWithDuplicates.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/LambdaInSets/Structures/Tree/NaryTree.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/LambdaInSets/Structures/Tree/NaryTree.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/LambdaInSets/Structures/Tree/Node.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/LambdaInSets/Structures/Tree/Node.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Structures/Lambda/Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Structures/Lambda/Test.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Structures/Tree/BST.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Structures/Tree/BST.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Structures/Tree/NaryTree.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Structures/Tree/NaryTree.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Structures/Tree/Node.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Structures/Tree/Node.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Structures/Tree/Tests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Structures/Tree/Tests.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -97,8 +108,8 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/Structures/Lambda/Test.java</url>
-          <line>15</line>
-          <option name="timeStamp" value="1" />
+          <line>16</line>
+          <option name="timeStamp" value="3" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

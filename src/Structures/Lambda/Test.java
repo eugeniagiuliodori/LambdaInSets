@@ -62,7 +62,8 @@ public class Test {
         BiConsumer<NaryTree<Integer,Integer>, Integer> showValues = (t,i) -> t.values().stream().sorted().forEach(e-> biconsumer.accept(menor.test(count.get(),i),e));
 
         loadTree.accept(tree,new Integer(2),new Integer(100));
-        tree.getRoot().graphic(type+"Tree.jpg");
+        tree.updateProperties();
+        tree.graphic(type+"Tree.jpg");
         System.out.println("VALUES IN "+type + " TREE");
         showValues.accept(tree, tree.size());
         System.out.println("DUPLICATED VALUES OF THE "+type+" TREE");
@@ -72,7 +73,8 @@ public class Test {
         System.out.println("VALUES THEN TO REMOVE TWO NUMBERS IN "+type +" TREE");
         count.set(1);
         showValues.accept(tree, tree.size());
-        tree.getRoot().graphic(type+"TreeWithDuplicates.jpg");
+        tree.updateProperties();
+        tree.graphic(type+"TreeWithDuplicates.jpg");
     }
 
 

@@ -31,12 +31,12 @@ public class Node<K extends Comparable<K>,V>  implements Comparator<K>{
     public Node(K code,V value){
         this.value=value;
         this.code = code;
-        this.level = 1;
+        this.level = -1;
         this.parent = null;
         this.isRoot = false;
         this.isLeaf = false;
-        this.grades = 0;
-        this.countSiblings = 0;
+        this.grades = -1;
+        this.countSiblings = -1;
         this.childs = new LinkedList();
     }
 
@@ -118,28 +118,6 @@ public class Node<K extends Comparable<K>,V>  implements Comparator<K>{
 
     }
 
-
-    public Node<K,V> removeNode(Node<K,V> nodev, K code){ //elimina subarbol y retorna subarbol resultante
-        if(nodev.getKey().compareTo(code)==0 && nodev.isRoot()) { //si remove la raiz
-            nodev=null;
-            return nodev;
-        }
-        else {
-            if (nodev.getKey().compareTo(code) == 0) {
-                nodev.getParent().removeChild(code);
-            }
-            else{
-                try {
-                    for (Node<K,V> n : nodev.getChilds()) {
-                        removeNode(n, code);
-                    }
-                }
-                catch(ConcurrentModificationException e){}
-            }
-        }
-        return null;
-    }
-
     public Node<K,V> rmNode(Node<K,V> nodev, K code){ //elimina solo el nodo de codigo 'code'
             if(nodev.getChilds().size()>0){
                 Node<K,V> nodeDel = searchNode(nodev,code);
@@ -148,47 +126,36 @@ public class Node<K extends Comparable<K>,V>  implements Comparator<K>{
                 if(nodeDel.isRoot()) {
                     newRoot = nodev.getChilds().get((0));
                     newRoot.setIsRoot(true);
-                    newRoot.setLevel(1);
                     newRoot.setParent(null);
                     for (Node<K, V> node : nodev.getChilds()) {
                         if (node.getKey().compareTo(newRoot.getKey()) != 0) {
                             node.setParent(newRoot);
-                            node.setGrades(node.getChilds().size());
                             listNodev.add(node);
                         }
                     }
-                    for(Node<K,V> n : nodev.getChilds()){
-                        n.setCountSiblings((n.getCountSiblings()-1));
-                    }
-                    updateLevel(newRoot,false);
                 }
                 else{
                     newRoot = nodeDel.getParent();
                     newRoot.setIsRoot(nodeDel.getParent().isRoot());
                     for (Node<K, V> node : nodeDel.getChilds()) {
                         node.setParent(newRoot);
-                        node.setGrades(node.getChilds().size());
                         listNodev.add(node);
                     }
-                    updateLevel(nodeDel,false);
                 }
 
                 List<Node<K,V>>  listNewRoot = newRoot.getChilds();
                 if(!nodeDel.isRoot()) {
                     for (int i = 0; i < listNewRoot.size(); i++) {
                         Node<K, V> node = listNewRoot.get(i);
-                        node.setGrades(node.getChilds().size());
                         if (listNewRoot.get(i).getKey().compareTo(code) == 0) {
                             listNewRoot.remove(i);
                         }
                     }
                 }
                 newRoot.setChilds(listNodev);
-                newRoot.setGrades(newRoot.getChilds().size());
                 newRoot.setLeaf(listNodev.size()==0);
                 reorder(listNewRoot,newRoot);
                 if(newRoot.isRoot()) {
-                    setLevel(newRoot);
                     nodev=newRoot;
                     return nodev;
                 }
@@ -199,7 +166,6 @@ public class Node<K extends Comparable<K>,V>  implements Comparator<K>{
                             nodec = nodec.getParent();
                         }
                     }
-                    setLevel(nodec);
                     return nodec;
                 }
             }
@@ -229,26 +195,20 @@ public class Node<K extends Comparable<K>,V>  implements Comparator<K>{
                         newRoot.setIsRoot(true);
                         newRoot.setLeaf(newRoot.getChilds().size()==0);
                         newRoot.setParent(null);
-                        updateLevel(newRoot,false);
                         nodev = newRoot;
-                        setLevel(nodev);
                         return nodev;
                     }
                     else{
                         nodev = null;
-                        return null;
+                        return nodev;
                     }
                 }
                 for(Node<K,V> n : nodev.getChilds()){
                     if(newRoot.getKey().compareTo(n.getKey())!=0) {
                         n.setParent(newRoot);
-                        n.setCountSiblings((n.getCountSiblings()-1));
                     }
                 }
-                newRoot.setLevel(1);
-               // updateLevel(newRoot,false);
                 if((nodev.getChilds().size()-1) + newRoot.getChilds().size() <= order){
-                    newRoot.setChilds(newRoot.getChilds());
                     for(Node<K,V> node : nodev.getChilds()){
                         if(node.getKey().compareTo(newRoot.getKey())!=0) {
                             newRoot.getChilds().add(node);
@@ -273,37 +233,24 @@ public class Node<K extends Comparable<K>,V>  implements Comparator<K>{
                         case 1:{
                             newRoot.setLeftChild(null);
                             newRoot.setRigthChild(null);
-                            newRoot.setLevel(1);
-                            newRoot.setCountSiblings(0);
-                            newRoot.setGrades(0);
                             newRoot.setLeaf(true);
                             break;
                         }
                         case 2:{
-                            newRoot.setGrades(1);
-                            updateLevel(newRoot,false);
                             break;
                         }
                         case 3:{
-                            newRoot.setGrades(1);
-                            updateLevel(newRoot,false);
                             break;
                         }
                         case 4:{
                             newRoot.setRigthChild(b1);
-                            newRoot.setGrades(1);
-                            updateLevel(newRoot,false);
                             break;
                         }
                         case 5:{
-                            newRoot.setGrades(2);
-                            updateLevel(newRoot,false);
                             break;
                         }
                         case 6:{
                             newRoot.setRigthChild(nodev.getRigthChild());
-                            newRoot.setGrades(2);
-                            updateLevel(newRoot,false);
                             break;
                         }
                         case 7:{
@@ -315,11 +262,8 @@ public class Node<K extends Comparable<K>,V>  implements Comparator<K>{
                                 while(currNode.getRigthChild() != null){
                                     currNode = currNode.getRigthChild();
                                 }
-                                b1.setLevel(currNode.getLevel()+2);
                                 currNode.setRigthChild(b1);
                             }
-                            newRoot.setGrades(2);
-                            updateLevel(newRoot,false);
                             break;
                         }
                         default:{ break;}
@@ -330,16 +274,12 @@ public class Node<K extends Comparable<K>,V>  implements Comparator<K>{
                     while(currNode.getRigthChild() != null){
                         currNode = currNode.getRigthChild();
                     }
-                    b1.setLevel(currNode.getLevel()+2);
                     currNode.setRigthChild(b1);
-                    updateLevel(newRoot,false);
                 }
-                newRoot.setGrades(newRoot.getChilds().size());
                 newRoot.setLeaf(newRoot.getChilds().size()==0);
                 newRoot.setIsRoot(true);
                 newRoot.setParent(null);
                 nodev = newRoot;
-                setLevel(nodev);
                 return nodev;
             }
             else{
@@ -359,7 +299,6 @@ public class Node<K extends Comparable<K>,V>  implements Comparator<K>{
                     nodec = nodec.getParent();
                 }
             }
-            setLevel(nodec);
             return nodec;
         }
     }
@@ -369,7 +308,6 @@ public class Node<K extends Comparable<K>,V>  implements Comparator<K>{
 
             Node<K,V> child = new Node(key,value);
             child.setParent(this);
-            child.setLevel(this.getLevel() + 1);
             child.setLeaf(true);
             child.setIsRoot(false);
             try{
@@ -385,8 +323,6 @@ public class Node<K extends Comparable<K>,V>  implements Comparator<K>{
                 }
                 this.setLeaf(false);
                 childs.add(child);
-                countSiblings = childs.size();
-                grades++;
                 return child;
             }
             catch(Exception e){
@@ -397,39 +333,17 @@ public class Node<K extends Comparable<K>,V>  implements Comparator<K>{
 
 
     private Node<K,V> addChild(K key, V value){
-        if(value != null && grades < order ) {
+        if(value != null && this.getChilds().size() < order ) {
             Node<K,V> child = new Node(key,value);
             child.setParent(this);
-            child.setLevel(this.getLevel() + 1);
             child.setLeaf(true);
             child.setIsRoot(false);
             childs.add(child);
-            countSiblings = childs.size();
-            grades++;
             return child;
         }
         return null;
     }
 
-    private boolean removeChild(K code){ //eliminar subarbol
-        boolean found = false;
-        if(childs.size()>0) {
-            int i = 0;
-            while (!found){
-                if(((Node<K,V>)childs.get(i)).getKey().compareTo(code)==0){
-                    grades--;
-                    found = true;
-                    if(childs.size()==1){
-                        ((Node<K,V>) childs.get(i)).getParent().setLeaf(true);
-                    }
-                    childs.remove(i);
-                    this.setCountSiblings(childs.size());
-                }
-                i++;
-            }
-        }
-        return found;
-    }
 
     private Node<K,V> rmChild(K code){ //eliminar solo el nodo
         if(childs.size()>0) {
@@ -461,8 +375,6 @@ public class Node<K extends Comparable<K>,V>  implements Comparator<K>{
                             this.setLeaf(true);
                         }
                         this.getChilds().remove(i);
-                        this.grades = this.getChilds().size();
-                        this.setCountSiblings(this.getChilds().size());
                         Node<K,V> delNode = new Node(k,v);
                         delNode.setLeaf(true);
                         delNode.setParent(this);
@@ -491,11 +403,7 @@ public class Node<K extends Comparable<K>,V>  implements Comparator<K>{
                             Node<K,V> n = node.getChilds().get(i);
                             if(n.getKey().compareTo(code)==0){
                                 node.getChilds().remove(i);
-                                node.setGrades(node.getChilds().size());
                                 break;
-                            }
-                            else{
-                                //list.add(n);
                             }
                         }
                         for (Node<K, V> n : leftChild.getChilds()) {
@@ -505,8 +413,6 @@ public class Node<K extends Comparable<K>,V>  implements Comparator<K>{
                         V v = leftChild.getValue();
                         node.setLeftChild(null);
                         reorderInBST(list, node);
-                        this.grades = this.childs.size();
-                        this.setCountSiblings(this.childs.size());
                         Node<K,V> delNode = new Node(k,v);
                         delNode.setParent(leftChild.getParent());
                         delNode.setLeftChild(null);
@@ -527,8 +433,6 @@ public class Node<K extends Comparable<K>,V>  implements Comparator<K>{
 
                         K k = leftChild.getKey();
                         V v = leftChild.getValue();
-                        this.grades = this.childs.size();
-                        this.setCountSiblings(this.childs.size());
                         Node<K,V> delNode = new Node(k,v);
                         delNode.setParent(leftChild.getParent());
                         node.setLeftChild(null);
@@ -559,8 +463,6 @@ public class Node<K extends Comparable<K>,V>  implements Comparator<K>{
                         V v = rigthChild.getValue();
                         node.setRigthChild(null);
                         reorderInBST(list, node);
-                        this.grades = this.childs.size();
-                        this.setCountSiblings(this.childs.size());
                         Node<K,V> delNode = new Node(k,v);
                         delNode.setParent(rigthChild.getParent());
                         delNode.setLeftChild(null);
@@ -580,8 +482,6 @@ public class Node<K extends Comparable<K>,V>  implements Comparator<K>{
                         }
                         K k = rigthChild.getKey();
                         V v = rigthChild.getValue();
-                        this.grades = this.childs.size();
-                        this.setCountSiblings(this.childs.size());
                         Node<K,V> delNode = new Node(k,v);
                         delNode.setParent(rigthChild.getParent());
                         node.setRigthChild(null);
@@ -595,20 +495,6 @@ public class Node<K extends Comparable<K>,V>  implements Comparator<K>{
 
 
 
-    private void updateLevel(Node<K,V> node, boolean increment){
-        if(increment){
-            for(Node<K,V> nodev : node.getChilds()){
-                nodev.setLevel(nodev.getLevel() + 1);
-            }
-        }
-        if(!increment){
-            for(Node<K,V> nodev : node.getChilds()){
-                nodev.setLevel(nodev.getLevel() - 1);
-            }
-        }
-
-    }
-
 
     public int size(Node<K,V> node, int sum){
         sum=sum+1;
@@ -618,12 +504,6 @@ public class Node<K extends Comparable<K>,V>  implements Comparator<K>{
         return sum;
     }
 
-    private void setLevel (Node<K,V> node){
-        for(Node<K,V> n: node.getChilds()){
-            n.setLevel(node.getLevel()+1);
-            setLevel(n);
-        }
-    }
 
 
 
@@ -632,10 +512,8 @@ public class Node<K extends Comparable<K>,V>  implements Comparator<K>{
             if (nr.getChilds().size() < order) {
                 Node<K,V> nmod = nr;
                 Node<K, V> n = nodesToAdd.get(0);
-                nr.setGrades(nr.getChilds().size()+1);
                 n.setParent(nr);
                 n.setLeaf(true);
-                n.setGrades(0);
                 nr.getChilds().add(n);
                 nr.setLeaf(false);
                 nodesToAdd.remove(0);
@@ -647,25 +525,25 @@ public class Node<K extends Comparable<K>,V>  implements Comparator<K>{
                 }
                 reorder(nodesToAdd,nr);
 
-            } else {
-                    Node<K,V> nmod = nr;
-                    while(nr.getParent() != null){
-                        nr=nr.getParent();
-                    }
-                    while(nr.getChilds().size()==order){
-                        int index = 0;
-                        int sum = Integer.MAX_VALUE;
-                        for(int i=0;i<nr.getChilds().size();i++){
-                            int currSize = size(nr.getChilds().get(i),0);
-                            if(currSize < sum){
-                                sum=currSize;
-                                index=i;
-                            }
-                        }
-                        nr=nr.getChilds().get(index);
-                    }
-                    reorder(nodesToAdd, nr);
+            }
+            else {
+                while(nr.getParent() != null){
+                    nr=nr.getParent();
                 }
+                while(nr.getChilds().size()==order){
+                    int index = 0;
+                    int sum = Integer.MAX_VALUE;
+                    for(int i=0;i<nr.getChilds().size();i++){
+                        int currSize = size(nr.getChilds().get(i),0);
+                        if(currSize < sum){
+                            sum=currSize;
+                            index=i;
+                        }
+                    }
+                    nr=nr.getChilds().get(index);
+                }
+                reorder(nodesToAdd, nr);
+            }
 
         }
     }
@@ -699,11 +577,8 @@ public class Node<K extends Comparable<K>,V>  implements Comparator<K>{
                 }
             }
         }
-        nodev.setGrades(nodev.getChilds().size());
         nodev.setLeaf(nodev.getChilds().size()==0);
     }
-
-
 
     public Node<K, V> getLeftChild() {
         return leftChild;
@@ -798,202 +673,6 @@ public class Node<K extends Comparable<K>,V>  implements Comparator<K>{
         return o1.compareTo(o2);
     }
 
-    private String getCodigoGraphviz() {
-        String s="";
-        return "digraph grafica{\n" +
-                "labelloc=\"t\";"+
-                "label =\"RESULTANT N-ARY TREE\n\""+
-                "rankdir=TB;\n" +
-                "node [shape = record, style=filled, fillcolor=seashell2];\n"+
-                getCodigoInterno()+
-                "}\n";
-    }
-    private String getCodigoInterno() {
-        String etiqueta;
-
-            if (childs.size() == 0) {
-                etiqueta = "nodo" + this.getKey() + " [ label =\"" + "level("+this.getLevel()+")-grades("+this.getGrades()+")-key(" + this.getKey() + ")-value(" + this.getValue().toString() + ")\"];\n";
-            } else {
-
-                etiqueta = "nodo" + this.getKey() + " [ label =\"" + "level("+this.getLevel()+")-grades("+this.getGrades()+")-key(" + this.getKey() + ")-value(" + this.getValue().toString() + ")\"];\n";
-            }
-
-        for(Node<K,V> node : this.getChilds()){
-                etiqueta=etiqueta + node.getCodigoInterno() +
-                        "nodo"+this.getKey()+"->nodo"+node.getKey()+"\n";
-        }
-        return etiqueta;
-    }
-    public void graphic(String path) {
-        FileWriter fichero = null;
-        PrintWriter escritor;
-        String type = new String("");
-        Node<K,V> node = this;
-        if(node.getLeftChild()!=null || node.getRigthChild()!=null){
-            type = new String("BST");
-        }
-        else{
-            type = new String("N-ARY");
-        }
-        try
-        {
-            if(path.equals(type+"Tree.jpg"))fichero = new FileWriter(type+"GTree.dot");
-            if(path.equals(type+"TreeWithDuplicates.jpg"))fichero = new FileWriter(type+"GTreeWithDuplicates.dot");
-            escritor = new PrintWriter(fichero);
-
-            while(node.getParent()!=null){
-                node=node.getParent();
-            }
-            if(node.getLeftChild()!=null || node.getRigthChild()!=null){//if is BST
-                escritor.print(getCodigoGraphvizBST());
-            }
-            else{
-                escritor.print(getCodigoGraphviz());
-            }
-        }
-        catch (Exception e){
-            try{
-                if(path.equals(type+"Tree.jpg"))fichero = new FileWriter(type+"GTree.dot");
-                if(path.equals(type+"TreeWithDuplicates.jpg"))fichero = new FileWriter(type+"GTreeWithDuplicates.dot");
-                escritor = new PrintWriter(fichero);
-                while(node.getParent()!=null){
-                    node=node.getParent();
-                }
-                if(node.getLeftChild()!=null || node.getRigthChild()!=null){//if is BST
-                    escritor.print(getCodigoGraphvizBST());
-                }
-                else{
-                    escritor.print(getCodigoGraphviz());
-                }
-
-            }
-            catch(Exception ex) {
-                System.err.println("Error at graphic");
-            }
-        }
-        finally{
-            try {
-                if (null != fichero)
-                    fichero.close();
-            }
-            catch (Exception e2){
-                System.err.println("Error at close file");
-            }
-        }
-        try{
-            Runtime rt = Runtime.getRuntime();
-            File file = new File(path);
-            file.delete();
-            Process process=null;
-            if(path.equals(type+"Tree.jpg")){
-                process = rt.exec( "dot -Tjpg -o "+path+" "+type+"GTree.dot");
-            }
-            if(path.equals(type+"TreeWithDuplicates.jpg")){
-                process = rt.exec( "dot -Tjpg -o "+path+" "+type+"GTreeWithDuplicates.dot");
-            }
-            while(process.isAlive()){}
-            PdfDocument doc = new PdfDocument();
-            PdfPageBase page = doc.getPages().add();
-            PdfImage image = PdfImage.fromFile(path);
-            double widthFitRate = getImgWidth(new File(path))/ page.getActualBounds(true).getWidth();
-            double heightFitRate = getImgHeight(new File(path))/ page.getActualBounds(true).getHeight();
-            double fitRate = Math.max(widthFitRate, heightFitRate);
-            double fitWidth = getImgWidth(new File(path)) / fitRate*0.8f;
-            double fitHeight = getImgHeight(new File(path))/ fitRate*0.8f;
-            page.getCanvas().drawImage(image, 50, 30, fitWidth, fitHeight);
-            doc.saveToFile(path.replace(".jpg",".pdf"));
-            doc.close();
-            File f = new File(path.replace(".jpg",".pdf"));
-            f.setWritable(false);
-            String s = f.getPath();
-            try {
-                Runtime.getRuntime().exec("okular " + f.getPath());
-            }
-            catch(Exception e){
-                Desktop.getDesktop().open(f);
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            System.err.println("Error at graphic");
-        }
-    }
-
-    private static int getImgHeight(File ImageFile) {
-
-        InputStream is = null;
-        BufferedImage src = null;
-
-        int ret = -1;
-
-        try {
-            is = new FileInputStream(ImageFile);
-            src = javax.imageio.ImageIO.read(is);
-            ret = src.getHeight(null);
-            is.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return ret;
-    }
-
-
-
-    private static int getImgWidth(File ImageFile) {
-
-        InputStream is = null;
-        BufferedImage src = null;
-
-        int ret = -1;
-
-        try {
-            is = new FileInputStream(ImageFile);
-            src = javax.imageio.ImageIO.read(is);
-            ret = src.getWidth(null);
-            is.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return ret;
-    }
-
-
-    private String getCodigoGraphvizBST() {
-        size=0;
-        return "digraph grafica{\n" +
-                "labelloc=\"t\";"+
-                "label =\"RESULTANT BST TREE\n\""+
-                "rankdir=TB;\n" +
-                "node [shape = record, style=filled, fillcolor=seashell2];\n"+
-                getCodigoInternoBST()+
-                "}\n";
-    }
-
-private int size;
-    private String getCodigoInternoBST() {
-        String etiqueta;
-        size++;
-        if(childs.size()==0){
-            etiqueta="nodo"+this.getKey()+" [ label =\""+ "level("+this.getLevel()+")-grades("+this.getGrades()+")-key("+this.getKey()+")-value("+this.getValue().toString()+")\"];\n";
-        }
-        else{
-
-            etiqueta="nodo"+this.getKey()+" [ label =\"<C0>|"+ "level("+this.getLevel()+") grades("+this.getGrades()+")-key("+this.getKey()+")-value("+this.getValue().toString()+")|<C1>\"];\n";
-        }
-        for(Node<K,V> node : this.getChilds()){
-            if(((Comparable)node.getValue()).compareTo(this.getValue())<=0){
-                etiqueta=etiqueta + node.getCodigoInternoBST() +
-                        "nodo"+node.getParent().getKey()+":C0->nodo"+node.getKey()+"\n";
-            }
-            else{
-                etiqueta=etiqueta + node.getCodigoInternoBST() +
-                        "nodo"+this.getKey()+":C1->nodo"+node.getKey()+"\n";
-            }
-
-        }
-        return etiqueta;
-    }
 
 
 

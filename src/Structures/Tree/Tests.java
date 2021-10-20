@@ -29,7 +29,7 @@ public class Tests {
         System.out.println("NUMBERS IN THE TREE DELETING THE NUMBER 3");
         System.out.println(tree.toString()+"\n");
 
-        tree.getRoot().graphic("Tree.jpg");
+        tree.graphic("Tree.jpg");
 
     }
 }

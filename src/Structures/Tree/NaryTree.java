@@ -1,9 +1,16 @@
 package Structures.Tree;
 
 import Structures.Lambda.SimpleEntry;
+import com.spire.pdf.PdfDocument;
+import com.spire.pdf.PdfPageBase;
+import com.spire.pdf.graphics.PdfImage;
 import jdk.internal.util.xml.impl.Pair;
 
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.*;
 import java.util.*;
+import java.util.List;
 
 public class NaryTree<K extends Comparable<K>,V> implements Map<K,V> {
 
@@ -14,6 +21,26 @@ public class NaryTree<K extends Comparable<K>,V> implements Map<K,V> {
 
     public NaryTree(){
         size=0;
+    }
+
+    private void registerProperties(Node<K,V> node){
+        if(!node.isRoot()) {
+            node.setCountSiblings(node.getParent().getChilds().size() - 1);
+            node.setGrades(node.getChilds().size());
+            node.setLevel(node.getParent().getLevel() + 1);
+        }
+        else{
+            node.setCountSiblings(0);
+            node.setGrades(1);
+            node.setLevel(1);
+        }
+        for(Node<K,V> nodev : node.getChilds()){
+            registerProperties(nodev);
+        }
+    }
+
+    public void updateProperties(){
+        registerProperties(root);
     }
 
     private void add(K code,V value){
@@ -29,11 +56,6 @@ public class NaryTree<K extends Comparable<K>,V> implements Map<K,V> {
             if(size==2) root.setLeaf(false);
             root.addNode(root,code,value);
         }
-    }
-
-
-    private void removeSubTree(K code){
-        root.removeNode(root,code);
     }
 
     private Node<K,V> rm(K code){
@@ -55,9 +77,6 @@ public class NaryTree<K extends Comparable<K>,V> implements Map<K,V> {
         return root.searchs(root,new LinkedList<>(),value);
     }
 
-    public void graphic(String path){
-        root.graphic(path);
-    }
 
     private String toStringRec(Node<K,V> nodeparent, String s){
         for(Node<K,V> node : nodeparent.getChilds()){
@@ -73,12 +92,7 @@ public class NaryTree<K extends Comparable<K>,V> implements Map<K,V> {
         return root.getValue() + toStringRec(root,new String(""));
     }
 
-
-    public Node<K,V> getRoot(){
-        return root;
-    }
-
-    public void setRoot(Node<K,V> root){
+    protected void setRoot(Node<K,V> root){
         this.root=root;
     }
 
@@ -188,5 +202,152 @@ public class NaryTree<K extends Comparable<K>,V> implements Map<K,V> {
         list.add(root.getValue());
         return iterateRec(root,list);
     }
+
+    protected String getCodigoGraphviz() {
+        return "digraph grafica{\n" +
+                "labelloc=\"t\";"+
+                "label =\"RESULTANT N-ARY TREE\n\""+
+                "rankdir=TB;\n" +
+                "node [shape = record, style=filled, fillcolor=seashell2];\n"+
+                getCodigoInterno(root,new String(""))+
+                "}\n";
+    }
+    protected String getCodigoInterno(Node<K,V> node, String etiqueta) {
+        if (node.getChilds().size() == 0) {
+            if(node.getGrades()!=-1)  etiqueta = "nodo" + node.getKey() + " [ label =\"" + "key(" + node.getKey() + ")-value(" + node.getValue().toString() + ")"+"\\nlevel("+node.getLevel()+")-grades("+node.getGrades()+")-siblings("+node.getCountSiblings()+")\"];\n";
+            if(node.getGrades()==-1)  etiqueta = "nodo" + node.getKey() + " [ label =\"" + "key(" + node.getKey() + ")-value(" + node.getValue().toString() + ")\"];\n";
+        } else {
+            if(node.getGrades()!=-1)  etiqueta = "nodo" + node.getKey() + " [ label =\"" + "key(" + node.getKey() + ")-value(" + node.getValue().toString() + ")"+"\\nlevel("+node.getLevel()+")-grades("+node.getGrades()+")-siblings("+node.getCountSiblings()+")\"];\n";
+            if(node.getGrades()==-1)  etiqueta = "nodo" + node.getKey() + " [ label =\"" + "key(" + node.getKey() + ")-value(" + node.getValue().toString() + ")\"];\n";
+        }
+        for(Node<K,V> n : node.getChilds()){
+            etiqueta=etiqueta + getCodigoInterno(n,etiqueta) +
+                    "nodo"+node.getKey()+"->nodo"+n.getKey()+"\n";
+        }
+        return etiqueta;
+    }
+
+    public void graphic(String path){
+        graphicTree(path,new String("N-ARY"));
+    }
+    protected void graphicTree(String path, String type) {
+        FileWriter fichero = null;
+        PrintWriter escritor;
+        Node<K,V> node = root;
+        try {
+            if(path.equals(type+"Tree.jpg"))fichero = new FileWriter(type+"GTree.dot");
+            if(path.equals(type+"TreeWithDuplicates.jpg"))fichero = new FileWriter(type+"GTreeWithDuplicates.dot");
+            escritor = new PrintWriter(fichero);
+            while(node.getParent()!=null){
+                node=node.getParent();
+            }
+            escritor.print(getCodigoGraphviz());
+        }
+        catch (Exception e){
+            try{
+                if(path.equals(type+"Tree.jpg"))fichero = new FileWriter(type+"GTree.dot");
+                if(path.equals(type+"TreeWithDuplicates.jpg"))fichero = new FileWriter(type+"GTreeWithDuplicates.dot");
+                escritor = new PrintWriter(fichero);
+                while(node.getParent()!=null){
+                    node=node.getParent();
+                }
+                escritor.print(getCodigoGraphviz());
+            }
+            catch(Exception ex) {
+                System.err.println("Error at graphic");
+            }
+        }
+        finally{
+            try {
+                if (null != fichero)
+                    fichero.close();
+            }
+            catch (Exception e2){
+                System.err.println("Error at close file");
+            }
+        }
+        try{
+            Runtime rt = Runtime.getRuntime();
+            File file = new File(path);
+            file.delete();
+            Process process=null;
+            if(path.equals(type+"Tree.jpg")){
+                process = rt.exec( "dot -Tjpg -o "+path+" "+type+"GTree.dot");
+            }
+            if(path.equals(type+"TreeWithDuplicates.jpg")){
+                process = rt.exec( "dot -Tjpg -o "+path+" "+type+"GTreeWithDuplicates.dot");
+            }
+            while(process.isAlive()){}
+            PdfDocument doc = new PdfDocument();
+            PdfPageBase page = doc.getPages().add();
+            PdfImage image = PdfImage.fromFile(path);
+            double widthFitRate = getImgWidth(new File(path))/ page.getActualBounds(true).getWidth();
+            double heightFitRate = getImgHeight(new File(path))/ page.getActualBounds(true).getHeight();
+            double fitRate = Math.max(widthFitRate, heightFitRate);
+            double fitWidth = getImgWidth(new File(path)) / fitRate*0.8f;
+            double fitHeight = getImgHeight(new File(path))/ fitRate*0.8f;
+            page.getCanvas().drawImage(image, 50, 30, fitWidth, fitHeight);
+            doc.saveToFile(path.replace(".jpg",".pdf"));
+            doc.close();
+            File f = new File(path.replace(".jpg",".pdf"));
+            f.setWritable(false);
+            String s = f.getPath();
+            try {
+                Runtime.getRuntime().exec("okular " + f.getPath());
+            }
+            catch(Exception e){
+                Desktop.getDesktop().open(f);
+            }
+            while(process.isAlive()){}
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            System.err.println("Error at graphic");
+        }
+    }
+
+    protected static int getImgHeight(File ImageFile) {
+
+        InputStream is = null;
+        BufferedImage src = null;
+
+        int ret = -1;
+
+        try {
+            is = new FileInputStream(ImageFile);
+            src = javax.imageio.ImageIO.read(is);
+            ret = src.getHeight(null);
+            is.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return ret;
+    }
+
+
+
+    protected static int getImgWidth(File ImageFile) {
+
+        InputStream is = null;
+        BufferedImage src = null;
+
+        int ret = -1;
+
+        try {
+            is = new FileInputStream(ImageFile);
+            src = javax.imageio.ImageIO.read(is);
+            ret = src.getWidth(null);
+            is.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return ret;
+    }
+
+    protected Node<K,V> getRoot(){return root;}
+
+
+
 
 }
